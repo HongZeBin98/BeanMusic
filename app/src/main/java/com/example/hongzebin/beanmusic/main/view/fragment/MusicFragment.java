@@ -66,6 +66,7 @@ public class MusicFragment extends LazyFragment {
 
     private void initEvent() {
         mViewPager.setAdapter(new TabViewPagerAdapter(getChildFragmentManager(), mFragments, mTabList));
+        mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 }

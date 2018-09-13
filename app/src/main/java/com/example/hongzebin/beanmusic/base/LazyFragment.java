@@ -22,7 +22,7 @@ public abstract class LazyFragment extends Fragment {
         view = inflater.inflate(setContentView(), container, false);
         isInit = true;
         //初始化的时候去加载数据
-        isCanLoadData();
+        isCanLoadData(false);
         return view;
     }
 
@@ -32,7 +32,7 @@ public abstract class LazyFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        isCanLoadData();
+        isCanLoadData(false);
     }
 
     /**
@@ -41,18 +41,10 @@ public abstract class LazyFragment extends Fragment {
      * 1.视图已经初始化
      * 2.视图对用户可见
      */
-    private void isCanLoadData() {
-        if (!isInit) {
-            return;
-        }
-
-        if (getUserVisibleHint()) {
+    private void isCanLoadData(boolean forceUpdate) {
+        if (getUserVisibleHint() && isInit && (!isLoad || forceUpdate)){
             lazyLoad();
             isLoad = true;
-        } else {
-            if (isLoad) {
-                stopLoad();
-            }
         }
     }
 
