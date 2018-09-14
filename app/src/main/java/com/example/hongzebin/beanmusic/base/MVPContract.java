@@ -1,5 +1,7 @@
 package com.example.hongzebin.beanmusic.base;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.example.hongzebin.beanmusic.recommendation.bean.ShufflingBean;
 
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.List;
  */
 public class MVPContract {
 
-    public interface View{
+    public interface View {
         void showView(Object response);
     }
 
-    public interface Presenter{
-        void getData();
+    public interface Presenter {
+        void getData(FragmentActivity activity);
     }
 }

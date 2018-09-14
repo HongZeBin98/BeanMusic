@@ -1,5 +1,7 @@
 package com.example.hongzebin.beanmusic.recommendation.presenter;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.example.hongzebin.beanmusic.base.BasePresenter;
 import com.example.hongzebin.beanmusic.base.MVPContract;
 import com.example.hongzebin.beanmusic.recommendation.bean.ShufflingBean;
@@ -19,11 +21,18 @@ public class RecPresenter extends BasePresenter<MVPContract.View> implements MVP
     }
 
     @Override
-    public void getData() {
+    public void getData(final FragmentActivity fragmentActivity) {
         mRecModel.getShufflings(7, new RecModel.RecModelCallback() {
             @Override
-            public void onFinish(List<ShufflingBean> shufflingBeans) {
-                mView.showView(shufflingBeans);
+            public void onFinish(final List<ShufflingBean> shufflingBeans) {
+                mShufflingBeanList = shufflingBeans;
+                //返回UI线程
+                fragmentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mView.showView(shufflingBeans);
+                    }
+                });
             }
         });
     }

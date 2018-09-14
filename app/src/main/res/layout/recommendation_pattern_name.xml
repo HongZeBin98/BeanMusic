@@ -5,19 +5,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"/>
-
-    <TextView
         android:id="@+id/recommendation_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="11111111111111111111"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="10dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
         android:textColor="@color/white" />
 </LinearLayout>

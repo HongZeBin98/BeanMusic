@@ -14,6 +14,7 @@ import com.example.hongzebin.beanmusic.recommendation.presenter.RecPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecFragment extends BaseFragment<MVPContract.View, RecPresenter> implements MVPContract.View {
 
@@ -38,7 +39,7 @@ public class RecFragment extends BaseFragment<MVPContract.View, RecPresenter> im
     }
 
     private void initData() {
-        mPresenter.getData();
+        mPresenter.getData(getActivity());
     }
 
     private void initEvent() {
@@ -65,16 +66,9 @@ public class RecFragment extends BaseFragment<MVPContract.View, RecPresenter> im
         for (ShufflingBean shufflingBean: mShuBeans){
             imageAddress.add(shufflingBean.getImageAddress());
         }
-        boolean flag = imageAddress ==null;
-        Log.e("flag", ""+flag);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //设置网格布局
-                mRecyclerView.setLayoutManager(new GridLayoutManager(mRecyclerView.getContext(), 6, GridLayoutManager.VERTICAL, false));
-                mRecyclerView.setAdapter(new RecyclerViewAdapter(getContext(), imageAddress));
-            }
-        });
+        //设置网格布局
+        mRecyclerView.setLayoutManager(new GridLayoutManager(mRecyclerView.getContext(), 6, GridLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(new RecyclerViewAdapter(getContext(), imageAddress));
 
     }
 }
