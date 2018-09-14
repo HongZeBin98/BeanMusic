@@ -21,6 +21,5 @@ public class SongListFragment extends LazyFragment {
 
     @Override
     protected void lazyLoad() {
-        Log.e("songlist", "???????????" );
     }
 }

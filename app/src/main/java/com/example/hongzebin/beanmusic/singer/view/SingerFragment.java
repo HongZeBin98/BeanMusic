@@ -21,6 +21,5 @@ public class SingerFragment extends LazyFragment {
 
     @Override
     protected void lazyLoad() {
-        Log.e("singer lazy", "????????????" );
     }
 }

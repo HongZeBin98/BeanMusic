@@ -62,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return 21;
+        return 22;
     }
 
     @Override

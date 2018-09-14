@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.hongzebin.beanmusic.recommendation.bean.ShufflingBean;
 import com.example.hongzebin.beanmusic.util.HttpUtil;
+import com.example.hongzebin.beanmusic.util.ParseJson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,7 +21,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class RecommendationModel {
+public class RecModel {
 
     public interface RecModelCallback{
         void onFinish(List<ShufflingBean> shufflingBeans);
@@ -41,24 +42,12 @@ public class RecommendationModel {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String responseData = Objects.requireNonNull(response.body()).string();
-                parseJson(responseData, callback);
+                //对原始的json数据进行截取
+                responseData = ParseJson.obtainDesignationJson(responseData, "pic");
+                //通过Gson解析json数据
+                List<ShufflingBean> shuffling = new Gson().fromJson(responseData, new TypeToken<List<ShufflingBean>>(){}.getType());
+                callback.onFinish(shuffling);
             }
         });
-    }
-
-    /**
-     * 通过Gson和JSONObject相结合解析json数据
-     * @param jsonData 需要解析的json数据
-     * @param callback  回调接口
-     */
-    private void parseJson(String jsonData ,RecModelCallback callback){
-        try {
-            Gson gson = new Gson();
-            jsonData = (String) new JSONObject(jsonData).get("pic");
-            List<ShufflingBean> shuffling = gson.fromJson(jsonData, new TypeToken<List<ShufflingBean>>(){}.getType());
-            callback.onFinish(shuffling);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

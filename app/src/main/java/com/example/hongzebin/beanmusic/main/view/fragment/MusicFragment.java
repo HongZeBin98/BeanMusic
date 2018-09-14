@@ -1,21 +1,15 @@
 package com.example.hongzebin.beanmusic.main.view.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.LazyFragment;
 import com.example.hongzebin.beanmusic.main.adapter.TabViewPagerAdapter;
 import com.example.hongzebin.beanmusic.rankingList.view.RankingListFragment;
-import com.example.hongzebin.beanmusic.recommendation.view.RecommendationFragment;
+import com.example.hongzebin.beanmusic.recommendation.view.RecFragment;
 import com.example.hongzebin.beanmusic.singer.view.SingerFragment;
 import com.example.hongzebin.beanmusic.songList.view.SongListFragment;
 
@@ -37,7 +31,6 @@ public class MusicFragment extends LazyFragment {
 
     @Override
     protected void lazyLoad() {
-        Log.e("music lazy", "????????????" );
         initView();
         initData();
         initEvent();
@@ -53,7 +46,7 @@ public class MusicFragment extends LazyFragment {
     }
 
     private void initData() {
-        mFragments.add(new RecommendationFragment());
+        mFragments.add(new RecFragment());
         mFragments.add(new SongListFragment());
         mFragments.add(new RankingListFragment());
         mFragments.add(new SingerFragment());

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private List<Fragment> mFragments;
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
-    private RadioButton mRbRec;
+    private RadioButton mRbMusic;
     private RadioButton mRbLocality;
 
     @Override
@@ -36,20 +36,20 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mFragments = new ArrayList<>();
         mViewPager = findViewById(R.id.main_viewpager);
         mRadioGroup = findViewById(R.id.main_top_RG);
-        mRbRec = findViewById(R.id.main_top_music);
+        mRbMusic = findViewById(R.id.main_top_music);
         mRbLocality = findViewById(R.id.main_top_locality);
     }
 
     private void initData() {
         mFragments.add(new MusicFragment());
         mFragments.add(new LocalityFragment());
-        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragments));
     }
 
     private void initEvent() {
+        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragments));
         mViewPager.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(0);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageSelected(int position) {
         if (position == 0){
-            mRbRec.setChecked(true);
+            mRbMusic.setChecked(true);
         }else if(position == 1) {
             mRbLocality.setChecked(true);
         }
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId == mRbRec.getId()){
+        if(checkedId == mRbMusic.getId()){
             mViewPager.setCurrentItem(0);
         }else if(checkedId == mRbLocality.getId()){
             mViewPager.setCurrentItem(1);

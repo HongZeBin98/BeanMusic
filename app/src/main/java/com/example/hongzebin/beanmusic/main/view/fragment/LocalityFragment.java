@@ -13,11 +13,6 @@ import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.LazyFragment;
 
 public class LocalityFragment extends LazyFragment {
-//    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_locality, container, false);
-//    }
 
     @Override
     protected int setContentView() {
@@ -26,6 +21,6 @@ public class LocalityFragment extends LazyFragment {
 
     @Override
     protected void lazyLoad() {
-        Log.e("locality lazy", "????????????" );
+
     }
 }

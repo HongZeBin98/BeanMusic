@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 使得Fragment能够进行懒加载
+ * Created By Mr.Bean
+ */
 public abstract class LazyFragment extends Fragment {
     /**
      * 视图是否已经初初始化

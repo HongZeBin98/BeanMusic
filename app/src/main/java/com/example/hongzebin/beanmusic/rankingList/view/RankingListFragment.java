@@ -21,6 +21,5 @@ public class RankingListFragment extends LazyFragment {
 
     @Override
     protected void lazyLoad() {
-        Log.e("rank", "????????" );
     }
 }
