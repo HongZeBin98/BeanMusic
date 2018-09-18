@@ -7,6 +7,6 @@
     <com.youth.banner.Banner
         android:id="@+id/recommendation_banner"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         app:delay_time="5000" />
 </android.support.constraint.ConstraintLayout>

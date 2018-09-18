@@ -3,10 +3,10 @@ package com.example.hongzebin.beanmusic.recommendation.bean;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 轮播图实体类
+ * 推荐页面轮播图实体类
  * Created By Mr.Bean
  */
-public class ShufflingBean {
+public class Shuffling {
 
     //轮播图内容类型，6是文章，7是mv，2是榜单
     @SerializedName("type")
@@ -18,7 +18,7 @@ public class ShufflingBean {
     @SerializedName("code")
     private String content;
 
-    public ShufflingBean(int type, String imageAddress, String content) {
+    public Shuffling(int type, String imageAddress, String content) {
         this.type = type;
         this.imageAddress = imageAddress;
         this.content = content;
