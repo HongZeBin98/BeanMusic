@@ -31,6 +31,7 @@ public class LocModel {
         List<MP3Info> mp3InfoList = new ArrayList<>();
         if (cursor != null){
             cursor.moveToFirst();
+            PinyinComparator pinyinComparator = new PinyinComparator();
             do {
                 //音乐id
                 long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
@@ -50,7 +51,8 @@ public class LocModel {
                 long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
                 //对音乐进行筛选（是音乐，播放长度大于一分钟，文件大小大于800k）
                 if (isMusic != 0 && duration/(1000 * 60) >= 1 && size >1024*800){
-                    mp3InfoList.add(new MP3Info(id, title, artist, album, url));
+                    String firstAlphabet = pinyinComparator.getPinYinHeadChar(title);
+                    mp3InfoList.add(new MP3Info(id, title, artist, album, url, firstAlphabet));
                 }
             }while (cursor.moveToNext());
         }

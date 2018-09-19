@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:layout_marginStart="7dp"
-    android:layout_marginEnd="7dp">
+    android:layout_marginStart="7dp">
 
     <TextView
         android:id="@+id/locality_song_name"
@@ -57,9 +56,10 @@
 
     <ImageButton
         android:id="@+id/locality_more"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
+        android:layout_marginRight="-22dp"
         android:background="@drawable/locality_music_more"
         android:layout_centerVertical="true"/>
 

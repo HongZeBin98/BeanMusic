@@ -8,6 +8,10 @@ import com.example.hongzebin.beanmusic.util.BeanMusicApplication;
 
 import java.util.List;
 
+/**
+ * 通过从Model获取到本地音乐列表后回调给view层
+ * Created By Mr.Bean
+ */
 public class LocPresenter extends BasePresenter<LocMVPContract.View> implements LocMVPContract.Presenter {
 
     private LocMVPContract.View mView;

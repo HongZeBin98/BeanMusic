@@ -19,7 +19,7 @@ public class PinyinComparator implements Comparator<MP3Info> {
 
     @Override
     public int compare(MP3Info o1, MP3Info o2) {
-        return getPinYinHeadChar(o1.getSongName()).compareTo(getPinYinHeadChar(o2.getSongName()));
+        return o1.getFirstAlphabet().compareTo(o2.getFirstAlphabet());
     }
 
     /**
@@ -27,7 +27,7 @@ public class PinyinComparator implements Comparator<MP3Info> {
      * @param str 需要获取首汉字拼音的首字母的字符串
      * @return 首汉字拼音的首字母
      */
-    private String getPinYinHeadChar(String str){
+    public String getPinYinHeadChar(String str){
         if(str != null){
             char[] strChar = str.toCharArray();
             // 汉语拼音格式输出类
