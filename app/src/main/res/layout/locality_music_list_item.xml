@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="7dp"
+    android:layout_marginEnd="7dp">
+
+    <TextView
+        android:id="@+id/locality_song_name"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:text="1111111111"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/locality_singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/locality_song_name"
+        android:layout_marginStart="2dp"
+        android:text="222222222222222222"
+        android:textSize="13sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="150dp"
+        android:textColor="@color/gray" />
+
+    <TextView
+        android:id="@+id/locality_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/locality_song_name"
+        android:layout_toEndOf="@id/locality_singer"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:text="—"
+        android:textSize="13sp"
+        android:textColor="@color/gray"/>
+
+    <TextView
+        android:id="@+id/locality_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/locality_song_name"
+        android:layout_toEndOf="@id/locality_space"
+        android:text="333333"
+        android:textSize="13sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="150dp"
+        android:textColor="@color/gray" />
+
+    <ImageButton
+        android:id="@+id/locality_more"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/locality_music_more"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/locality_singer"
+        android:background="#616870"/>
+</RelativeLayout>

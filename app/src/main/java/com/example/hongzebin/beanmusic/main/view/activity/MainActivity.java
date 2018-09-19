@@ -9,8 +9,9 @@ import android.widget.RadioGroup;
 
 import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.main.adapter.ViewPagerAdapter;
-import com.example.hongzebin.beanmusic.main.view.fragment.LocalityFragment;
+import com.example.hongzebin.beanmusic.locality.view.LocalityFragment;
 import com.example.hongzebin.beanmusic.main.view.fragment.MusicFragment;
+import com.example.hongzebin.beanmusic.util.Permission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Permission.requestAllPower(this);
         setContentView(R.layout.activity_main);
         initView();
         initData();

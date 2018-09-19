@@ -24,7 +24,7 @@ import com.youth.banner.loader.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class RecRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int BANNER = 10001;
     private static final int PATTERN_HEAD = 10002;
@@ -37,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<RecSong> mRecSongs;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, List<Shuffling> shufflings, List<HotSongList> hotSongLists
+    public RecRecyclerViewAdapter(Context context, List<Shuffling> shufflings, List<HotSongList> hotSongLists
             , List<NewSong> newSongs, List<RecSong> recSongs){
         mContext = context;
         mShufflings = shufflings;
