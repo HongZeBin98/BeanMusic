@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +19,8 @@ import com.example.hongzebin.beanmusic.R;
  */
 public class IndexBar extends View {
 
-    public static String[] alphabets = new String[]{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"
-            , "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#" };
+    public static String[] alphabets = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"
+            , "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
     private Paint mPaint;
     private int mDefaultColor;  //字母未被选中的颜色
     private int mSelectedColor; //字母被选中的颜色
@@ -28,7 +29,7 @@ public class IndexBar extends View {
     private OnAlphabetChangeListener mOnAlphabetChangeListener;
 
     public IndexBar(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public IndexBar(Context context, @Nullable AttributeSet attrs) {
@@ -53,17 +54,17 @@ public class IndexBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         mCellHeight = getHeight() / alphabets.length;
-        for (int i = 0; i < alphabets.length; i++){
+        for (int i = 0; i < alphabets.length; i++) {
             drawAlphabet(canvas, i);
         }
     }
 
-    private void drawAlphabet(Canvas canvas, int position){
+    private void drawAlphabet(Canvas canvas, int position) {
         String alphabet = alphabets[position];
-        if (isPressed()){
-            if (position == mSelectedPosition){
-                mPaint.setColor(mSelectedColor);
-                if(mOnAlphabetChangeListener != null){
+        if (isPressed()) {
+            mPaint.setColor(mSelectedColor);
+            if(mSelectedPosition == position){
+                if (mOnAlphabetChangeListener != null) {
                     mOnAlphabetChangeListener.alphabetChangeListener(position);
                 }
             }
@@ -78,14 +79,16 @@ public class IndexBar extends View {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setPressed(true);
             case MotionEvent.ACTION_MOVE:
                 float y = event.getY();
                 int index = (int) y * alphabets.length / getHeight();
-                mSelectedPosition = (int)(Math.ceil((y / mCellHeight)) - 1); //position是从0开始的,所以需要-1
-                mOnAlphabetChangeListener.onTouch(alphabets[index]);
+                mSelectedPosition = (int) (Math.ceil((y / mCellHeight)) - 1); //position是从0开始的,所以需要-1
+                if (index > -1 && index < alphabets.length){
+                    mOnAlphabetChangeListener.onTouch(alphabets[index]);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 setPressed(false);
@@ -96,13 +99,15 @@ public class IndexBar extends View {
         return true;
     }
 
-    public interface OnAlphabetChangeListener{
+    public interface OnAlphabetChangeListener {
         void alphabetChangeListener(int position);
+
         void onTouch(String ch);
+
         void onRelease();
     }
 
-    public void setOnAlphabetChangeListener(OnAlphabetChangeListener onAlphabetChangeListener){
+    public void setOnAlphabetChangeListener(OnAlphabetChangeListener onAlphabetChangeListener) {
         mOnAlphabetChangeListener = onAlphabetChangeListener;
     }
 }

@@ -54,6 +54,7 @@ public class LocalityFragment extends BaseFragment<LocMVPContract.View, LocPrese
         mIndexBar.setOnAlphabetChangeListener(new IndexBar.OnAlphabetChangeListener() {
             @Override
             public void alphabetChangeListener(int position) {
+
                 int i = mAdapter.getPositionForSection(position);
                 //如果找不到对应的位置则不进行滑动
                 if( i != -1){

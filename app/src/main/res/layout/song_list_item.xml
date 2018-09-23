@@ -6,7 +6,7 @@
     android:layout_marginStart="7dp">
 
     <TextView
-        android:id="@+id/locality_song_name"
+        android:id="@+id/song_name"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -17,10 +17,10 @@
         android:layout_marginBottom="2dp"/>
 
     <TextView
-        android:id="@+id/locality_singer"
+        android:id="@+id/song_singer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/locality_song_name"
+        android:layout_below="@id/song_name"
         android:layout_marginStart="2dp"
         android:text="222222222222222222"
         android:textSize="13sp"
@@ -30,11 +30,11 @@
         android:textColor="@color/gray" />
 
     <TextView
-        android:id="@+id/locality_space"
+        android:id="@+id/song_space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/locality_song_name"
-        android:layout_toEndOf="@id/locality_singer"
+        android:layout_below="@id/song_name"
+        android:layout_toEndOf="@id/song_singer"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:text="—"
@@ -42,11 +42,11 @@
         android:textColor="@color/gray"/>
 
     <TextView
-        android:id="@+id/locality_album"
+        android:id="@+id/song_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/locality_song_name"
-        android:layout_toEndOf="@id/locality_space"
+        android:layout_below="@id/song_name"
+        android:layout_toEndOf="@id/song_space"
         android:text="333333"
         android:textSize="13sp"
         android:ellipsize="end"
@@ -55,11 +55,11 @@
         android:textColor="@color/gray" />
 
     <ImageButton
-        android:id="@+id/locality_more"
+        android:id="@+id/song_more"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="-22dp"
+        android:layout_marginEnd="-18dp"
         android:background="@drawable/locality_music_more"
         android:layout_centerVertical="true"/>
 
@@ -69,6 +69,6 @@
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/locality_singer"
+        android:layout_below="@id/song_singer"
         android:background="#616870"/>
 </RelativeLayout>

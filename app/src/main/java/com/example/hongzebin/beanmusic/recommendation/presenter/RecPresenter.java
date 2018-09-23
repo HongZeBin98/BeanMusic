@@ -12,6 +12,10 @@ import com.example.hongzebin.beanmusic.recommendation.model.RecModel;
 
 import java.util.List;
 
+/**
+ * 通过从Model获取到推荐页面需要的数据后回调给view层
+ * Created By Mr.Bean
+ */
 public class RecPresenter extends BasePresenter<RecMVPContract.View> implements RecMVPContract.Presenter{
 
     private RecModel mRecModel;

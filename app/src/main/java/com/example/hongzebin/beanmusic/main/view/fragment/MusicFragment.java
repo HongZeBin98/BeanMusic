@@ -22,7 +22,6 @@ public class MusicFragment extends LazyFragment {
     private List<Fragment> mFragments;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private View mView;
 
     @Override
     protected int setContentView() {
@@ -37,12 +36,11 @@ public class MusicFragment extends LazyFragment {
     }
 
     private void initView() {
-        mView = getContentView();
+        View view = getContentView();
         mTabList = new ArrayList<>();
         mFragments = new ArrayList<>();
-        mViewPager = mView.findViewById(R.id.music_viewpager);
-        mTabLayout = mView.findViewById(R.id.music_tab);
-
+        mViewPager = view.findViewById(R.id.music_viewpager);
+        mTabLayout = view.findViewById(R.id.music_tab);
     }
 
     private void initData() {

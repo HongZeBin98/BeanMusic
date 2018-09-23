@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -11,18 +13,20 @@ import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.main.adapter.ViewPagerAdapter;
 import com.example.hongzebin.beanmusic.locality.view.LocalityFragment;
 import com.example.hongzebin.beanmusic.main.view.fragment.MusicFragment;
+import com.example.hongzebin.beanmusic.search.view.activity.SearchActivity;
 import com.example.hongzebin.beanmusic.util.Permission;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private List<Fragment> mFragments;
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
     private RadioButton mRbMusic;
     private RadioButton mRbLocality;
+    private ImageButton mImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mRadioGroup = findViewById(R.id.main_top_RG);
         mRbMusic = findViewById(R.id.main_top_music);
         mRbLocality = findViewById(R.id.main_top_locality);
+        mImageButton = findViewById(R.id.main_top_search);
     }
 
     private void initData() {
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragments));
         mViewPager.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
-        mViewPager.setCurrentItem(0);
+        mImageButton.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +82,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             mViewPager.setCurrentItem(0);
         }else if(checkedId == mRbLocality.getId()){
             mViewPager.setCurrentItem(1);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_top_search:
+                SearchActivity.startActivity(this);
+                break;
+            default:
+                break;
         }
     }
 }

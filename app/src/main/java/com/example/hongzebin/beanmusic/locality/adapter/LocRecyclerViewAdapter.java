@@ -31,7 +31,7 @@ public class LocRecyclerViewAdapter extends RecyclerView.Adapter<LocRecyclerView
     @NonNull
     @Override
     public MusicListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.locality_music_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.song_list_item, parent, false);
         return new MusicListViewHolder(view);
     }
 
@@ -80,10 +80,10 @@ public class LocRecyclerViewAdapter extends RecyclerView.Adapter<LocRecyclerView
 
         MusicListViewHolder(View itemView) {
             super(itemView);
-            mTvSongName = itemView.findViewById(R.id.locality_song_name);
-            mTvSinger = itemView.findViewById(R.id.locality_singer);
-            mTvAlbum = itemView.findViewById(R.id.locality_album);
-            mIbMore = itemView.findViewById(R.id.locality_more);
+            mTvSongName = itemView.findViewById(R.id.song_name);
+            mTvSinger = itemView.findViewById(R.id.song_singer);
+            mTvAlbum = itemView.findViewById(R.id.song_album);
+            mIbMore = itemView.findViewById(R.id.song_more);
         }
     }
 }
