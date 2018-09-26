@@ -6,21 +6,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.BaseFragment;
-import com.example.hongzebin.beanmusic.base.BaseNoLazyFragment;
+import com.example.hongzebin.beanmusic.base.view.BaseNoLazyFragment;
 import com.example.hongzebin.beanmusic.search.adapter.ViewPagerAdapter;
 import com.example.hongzebin.beanmusic.search.bean.SearchAlbum;
 import com.example.hongzebin.beanmusic.search.bean.SearchSinger;
 import com.example.hongzebin.beanmusic.search.bean.SearchSong;
 import com.example.hongzebin.beanmusic.search.contract.SearchMVPContract;
 import com.example.hongzebin.beanmusic.search.presenter.SearchPresenter;
+import com.example.hongzebin.beanmusic.search.view.activity.SearchActivity;
+import com.example.hongzebin.beanmusic.base.bean.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +48,15 @@ public class SearchResultFrag extends BaseNoLazyFragment<SearchMVPContract.View,
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_search_result_main, container, false);
-        initView();
+        initView(inflater, container);
         initData();
         initEvent();
         return mView;
     }
 
 
-    private void initView() {
+    private void initView(LayoutInflater inflater, ViewGroup container) {
+        mView = inflater.inflate(R.layout.fragment_search_result_main, container, false);
         mViewPager = mView.findViewById(R.id.search_result_view_pager);
         mPagerTabStrip = mView.findViewById(R.id.search_result_tag);
         mPagerNo = 0;
@@ -102,6 +102,11 @@ public class SearchResultFrag extends BaseNoLazyFragment<SearchMVPContract.View,
         mSongFragment.showSongList(this, mSongList, loadMoreFlag);
     }
 
+    @Override
+    public void returnSong(Song song) {
+        ((SearchActivity) getActivity()).getSong(song);
+    }
+
     /**
      * 搜索结果
      * @param keyWord 搜索的关键字
@@ -116,5 +121,13 @@ public class SearchResultFrag extends BaseNoLazyFragment<SearchMVPContract.View,
     public void getMoreData(){
         mPagerNo++;
         mPresenter.getSearchResult(getActivity(), mKeyWord, mPagerNo);
+    }
+
+    /**
+     * 获取点击的是第几首歌曲
+     * @param searchSong 点击的歌曲
+     */
+    public void getClickSearchSong(SearchSong searchSong){
+        mPresenter.getSong(searchSong);
     }
 }

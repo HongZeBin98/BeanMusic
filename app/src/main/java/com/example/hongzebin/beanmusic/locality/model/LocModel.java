@@ -49,10 +49,12 @@ public class LocModel {
                 long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                 //音乐文件大小
                 long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
+                //获取专辑id
+                long albumId = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
                 //对音乐进行筛选（是音乐，播放长度大于一分钟，文件大小大于800k）
                 if (isMusic != 0 && duration/(1000 * 60) >= 1 && size >1024*800){
                     String firstAlphabet = pinyinComparator.getPinYinHeadChar(title);
-                    mp3InfoList.add(new MP3Info(id, title, artist, album, url, firstAlphabet));
+                    mp3InfoList.add(new MP3Info(id, title, artist, album, albumId, duration, url, firstAlphabet));
                 }
             }while (cursor.moveToNext());
         }

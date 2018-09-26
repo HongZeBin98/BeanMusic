@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.LazyFragment;
+import com.example.hongzebin.beanmusic.base.view.LazyFragment;
 import com.example.hongzebin.beanmusic.main.adapter.TabViewPagerAdapter;
 import com.example.hongzebin.beanmusic.rankingList.view.RankingListFragment;
 import com.example.hongzebin.beanmusic.recommendation.view.RecFragment;

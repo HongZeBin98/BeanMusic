@@ -4,8 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.GlobalAdapter;
-import com.example.hongzebin.beanmusic.base.LazyFragment;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalAdapter;
+import com.example.hongzebin.beanmusic.base.view.LazyFragment;
 import com.example.hongzebin.beanmusic.search.adapter.LoadMoreRvAdapter;
 import com.example.hongzebin.beanmusic.search.bean.SearchSong;
 
@@ -32,8 +32,10 @@ public class SongFragment extends LazyFragment implements GlobalAdapter.OnCallba
             mAdapter.setLoading(false);
         }else {
             mSongList = new ArrayList<>();
-            mSongList.addAll(songList);
-            showRecyclerView();
+            if(songList != null){
+                mSongList.addAll(songList);
+                showRecyclerView();
+            }
         }
     }
 
@@ -75,7 +77,7 @@ public class SongFragment extends LazyFragment implements GlobalAdapter.OnCallba
 
     @Override
     public void onClickItem(int position) {
-
+        mFragment.getClickSearchSong(mSongList.get(position));
     }
 
     @Override

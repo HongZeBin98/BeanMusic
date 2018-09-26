@@ -1,4 +1,4 @@
-package com.example.hongzebin.beanmusic.base;
+package com.example.hongzebin.beanmusic.base.presenter;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

@@ -1,4 +1,4 @@
-package com.example.hongzebin.beanmusic.base;
+package com.example.hongzebin.beanmusic.base.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

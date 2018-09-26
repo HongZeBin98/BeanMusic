@@ -20,24 +20,35 @@ import java.util.List;
  * 本地音乐列表的适配器
  * Created By Mr.Bean
  */
-public class LocRecyclerViewAdapter extends RecyclerView.Adapter<LocRecyclerViewAdapter.MusicListViewHolder> implements SectionIndexer {
+public class LocRecyclerViewAdapter extends RecyclerView.Adapter<LocRecyclerViewAdapter.MusicListViewHolder> implements SectionIndexer, View.OnClickListener {
 
+    public interface OnItemClickListener{
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
     private List<MP3Info> mMP3InfoList;
 
     public LocRecyclerViewAdapter(List<MP3Info> mp3InfoList){
         mMP3InfoList = mp3InfoList;
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public MusicListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.song_list_item, parent, false);
+        view.setOnClickListener(this);
         return new MusicListViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MusicListViewHolder holder, int position) {
         MP3Info mp3Info = mMP3InfoList.get(position);
+        holder.itemView.setTag(position);
         holder.mTvSongName.setText(mp3Info.getSongName());
         holder.mTvSinger.setText(mp3Info.getSinger());
         holder.mTvAlbum.setText(mp3Info.getAlbum());
@@ -67,9 +78,17 @@ public class LocRecyclerViewAdapter extends RecyclerView.Adapter<LocRecyclerView
     }
 
     @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null){
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+        }
+    }
+
+    @Override
     public int getSectionForPosition(int position) {
         return 0;
     }
+
 
     class MusicListViewHolder extends RecyclerView.ViewHolder{
 

@@ -10,15 +10,19 @@ public class MP3Info {
     private String songName;
     private String singer;
     private String album;
+    private long albumId;
+    private long duration;
     private String URL;
     private String firstAlphabet;
 
-    public MP3Info(long id, String songName, String singer, String album, String URL
-            , String firstAlphabet) {
+    public MP3Info(long id, String songName, String singer, String album, long albumId
+            , long duration, String URL, String firstAlphabet) {
         this.id = id;
         this.songName = songName;
         this.singer = singer;
         this.album = album;
+        this.albumId = albumId;
+        this.duration = duration;
         this.URL = URL;
         this.firstAlphabet = firstAlphabet;
     }
@@ -53,6 +57,22 @@ public class MP3Info {
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(long albumId) {
+        this.albumId = albumId;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public String getURL() {

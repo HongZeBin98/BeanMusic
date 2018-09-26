@@ -2,7 +2,6 @@ package com.example.hongzebin.beanmusic.search.view.fragment;
 
 import android.support.v4.app.Fragment;
 
-import com.example.hongzebin.beanmusic.base.LazyFragment;
 import com.example.hongzebin.beanmusic.search.bean.SearchAlbum;
 
 import java.util.List;

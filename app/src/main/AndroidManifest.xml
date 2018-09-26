@@ -21,7 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".search.view.activity.SearchActivity"></activity>
+        <activity android:name=".search.view.activity.SearchActivity" />
+
+        <service
+            android:name=".service.PlayerManagerService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote" />
+
+        <activity android:name=".base.view.BaseActivity"></activity>
     </application>
 
 </manifest>

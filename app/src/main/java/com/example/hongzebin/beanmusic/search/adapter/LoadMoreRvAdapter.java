@@ -1,11 +1,10 @@
 package com.example.hongzebin.beanmusic.search.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.GlobalAdapter;
-import com.example.hongzebin.beanmusic.base.GlobalViewHolder;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalAdapter;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalViewHolder;
 import com.example.hongzebin.beanmusic.search.bean.SearchSong;
 
 import java.util.List;

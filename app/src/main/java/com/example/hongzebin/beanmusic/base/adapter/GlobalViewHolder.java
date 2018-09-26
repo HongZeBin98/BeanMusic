@@ -1,4 +1,4 @@
-package com.example.hongzebin.beanmusic.base;
+package com.example.hongzebin.beanmusic.base.adapter;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;

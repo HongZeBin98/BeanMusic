@@ -2,7 +2,7 @@ package com.example.hongzebin.beanmusic.recommendation.presenter;
 
 import android.util.Log;
 
-import com.example.hongzebin.beanmusic.base.BasePresenter;
+import com.example.hongzebin.beanmusic.base.presenter.BasePresenter;
 import com.example.hongzebin.beanmusic.recommendation.contract.RecMVPContract;
 import com.example.hongzebin.beanmusic.recommendation.bean.HotSongList;
 import com.example.hongzebin.beanmusic.recommendation.bean.NewSong;
