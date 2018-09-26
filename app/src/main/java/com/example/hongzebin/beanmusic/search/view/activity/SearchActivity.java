@@ -2,11 +2,14 @@ package com.example.hongzebin.beanmusic.search.view.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,13 +28,12 @@ import com.example.hongzebin.beanmusic.base.bean.Song;
  * 搜索页面Activity
  * Created By Mr.Bean
  */
-public class SearchActivity extends BaseActivity implements View.OnTouchListener, SearchView.OnQueryTextListener {
+public class SearchActivity extends BaseActivity implements View.OnTouchListener, SearchView.OnQueryTextListener{
 
     private SearchView mSearchView;
     private ImageButton mIbBack;
     private FrameLayout mFlMiddle;
     private BottomPlayerFragment mBottomFragment;
-
 
     /**
      * 启动该Activity
@@ -55,13 +57,26 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
         ft.replace(ViewId, fragment).commit();
     }
 
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        switch (keyCode) {
+//            case KeyEvent.KEYCODE_BACK:
+//                Log.e("", "?????????????" );
+//                finish();
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()) {
             case R.id.search_back:
                 finish();
-                return false;
+                return true;
             default:
                 //取消searchView光标
                 mSearchView.clearFocus();
@@ -98,7 +113,7 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
      * @param song 要播放的歌
      */
     public void getSong(Song song) {
-
+        mBottomFragment.insertSongToSongList(song);
     }
 
     @Override
@@ -132,5 +147,4 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
         mFlMiddle.setOnTouchListener(this);
         mIbBack.setOnTouchListener(this);
     }
-
 }

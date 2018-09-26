@@ -25,7 +25,7 @@ public class SongFragment extends LazyFragment implements GlobalAdapter.OnCallba
 
     public void showSongList(SearchResultFrag fragment, List<SearchSong> songList, boolean loadMoreFlag){
         mFragment = fragment;
-        if (loadMoreFlag) {
+        if (loadMoreFlag && songList != null) {
             mSongList.addAll(songList);
             mAdapter.addData(songList, false);
             mAdapter.notifyDataSetChanged();

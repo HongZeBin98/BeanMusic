@@ -133,7 +133,12 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
             Bitmap bitmap = LocalityMP3InfoUtil.getLocalityMusicBitmap(song.getSongId(), song.getSmallImageAddress(), 150);
             mCivImage.setImageBitmap(bitmap);
         }else {
-            Glide.with(BeanMusicApplication.getContext()).load(song.getSmallImageAddress()).into(mCivImage);
+            if (song.getSmallImageAddress().equals("")){
+                //无法获取到专辑图片
+                mCivImage.setImageResource(R.drawable.music_false);
+            }else {
+                Glide.with(BeanMusicApplication.getContext()).load(song.getSmallImageAddress()).into(mCivImage);
+            }
         }
     }
 
@@ -150,6 +155,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
             mPosition++;
             mSongList.add(mPosition, song);
         }
+        showView(song);
     }
 
     @Override

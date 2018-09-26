@@ -99,7 +99,7 @@ public class SearchModel {
             JSONObject jsonObject = new JSONObject(Json).getJSONObject("songurl").getJSONArray("url").getJSONObject(0);
             String songAddress = (String) jsonObject.get("file_link");
             int songTime = (int) jsonObject.get("file_duration");
-            String smallImageAddress = (String) object.get("pic_small");
+            String smallImageAddress = (String) object.get("pic_big");
             String largeImageAddress = (String) object.get("pic_radio");
             String songName = (String) object.get("title");
             String singer = (String) object.get("artist");
