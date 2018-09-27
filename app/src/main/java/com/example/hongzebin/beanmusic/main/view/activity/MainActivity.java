@@ -2,7 +2,6 @@ package com.example.hongzebin.beanmusic.main.view.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -12,7 +11,8 @@ import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.bean.Song;
 import com.example.hongzebin.beanmusic.base.view.BaseActivity;
 import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
-import com.example.hongzebin.beanmusic.bottom_player.BottomPlayerFragment;
+import com.example.hongzebin.beanmusic.music.MusicManager;
+import com.example.hongzebin.beanmusic.music.view.BottomPlayerFragment;
 import com.example.hongzebin.beanmusic.main.adapter.ViewPagerAdapter;
 import com.example.hongzebin.beanmusic.locality.view.LocalityFragment;
 import com.example.hongzebin.beanmusic.main.view.fragment.MusicFragment;
@@ -21,8 +21,6 @@ import com.example.hongzebin.beanmusic.util.Permission;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import api.MusicApi;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
@@ -33,7 +31,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private RadioButton mRbLocality;
     private ImageButton mImageButton;
     private BottomPlayerFragment mFgBottomPlayer;
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -118,5 +115,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      */
     public void getLocalitySongList(List<Song> songList, int position){
         mFgBottomPlayer.setSongList(songList, position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MusicManager.getInstance().unBindService();
     }
 }

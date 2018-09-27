@@ -1,4 +1,4 @@
-package com.example.hongzebin.beanmusic.service;
+package com.example.hongzebin.beanmusic.music.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -9,51 +9,50 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.hongzebin.beanmusic.service.IPlayerManager;
+
 import java.io.IOException;
 
 public class PlayerManagerService extends Service {
 
-    public static final String TAG = "PlayerManagerService";
-
     private MediaPlayer mPlayer;
-
     private Binder mBinder = new IPlayerManager.Stub() {
         @Override
         public void play() throws RemoteException {
             try {
-                if (mPlayer.isPlaying()) {
-                }else {
-                    mPlayer.prepare();
+                if (!mPlayer.isPlaying()) {
                     mPlayer.start();
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.e("PlayerManagerService", Log.getStackTraceString(e));
             }
         }
 
         @Override
-        public void stop() throws RemoteException {
+        public void pause() throws RemoteException {
             try {
                 if (mPlayer.isPlaying()) {
-                    mPlayer.stop();
+                    mPlayer.pause();
                 }
             } catch (IllegalStateException e) {
-                Log.e("PlayerManagerService", Log.getStackTraceString(e) );
+                Log.e("PlayerManagerService", Log.getStackTraceString(e));
             }
         }
 
         @Override
         public void setSong(String songAddress) throws RemoteException {
             try {
+                mPlayer.release();
+                mPlayer = new MediaPlayer();
                 mPlayer.setDataSource(songAddress);
+                mPlayer.prepare();
             } catch (IOException e) {
-                Log.e("PlayerManagerService", Log.getStackTraceString(e) );
+                Log.e("PlayerManagerService", Log.getStackTraceString(e));
             }
         }
 
         @Override
         public void setCurrDuration(long songCurrTime) throws RemoteException {
-
         }
 
     };
@@ -71,7 +70,7 @@ public class PlayerManagerService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        if (mPlayer != null){
+        if (mPlayer != null) {
             mPlayer.release();
         }
         return super.onUnbind(intent);

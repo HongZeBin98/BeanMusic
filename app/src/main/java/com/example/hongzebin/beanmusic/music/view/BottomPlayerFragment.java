@@ -1,15 +1,15 @@
-package com.example.hongzebin.beanmusic.bottom_player;
+package com.example.hongzebin.beanmusic.music.view;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
 import com.example.hongzebin.beanmusic.base.bean.Song;
+import com.example.hongzebin.beanmusic.music.MusicManager;
 import com.example.hongzebin.beanmusic.util.BeanMusicApplication;
 import com.example.hongzebin.beanmusic.util.LocalityMP3InfoUtil;
 
@@ -29,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 底部音乐播放栏
  * Created By Mr.Bean
  */
-public class BottomPlayerFragment extends Fragment implements View.OnClickListener{
+public class BottomPlayerFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     private View mView;
     private TextView mTvSongName;
@@ -40,6 +41,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private ImageButton mIbSongList;
     private List<Song> mSongList;
     private int mPosition;
+    private MusicManager mMusicManager;
 
     /**
      * 新建一个底部播放栏，并且传入该播放栏的状态
@@ -72,6 +74,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mCbPlay = mView.findViewById(R.id.player_bottom_play_pause);
         mCivImage = mView.findViewById(R.id.player_bottom_circle_image_view);
         mIbSongList = mView.findViewById(R.id.player_bottom_song_list);
+        mMusicManager = MusicManager.getInstance();
     }
 
     private void initData() {
@@ -83,6 +86,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     private void initEvent() {
         mIbSongList.setOnClickListener(this);
+        mCbPlay.setOnCheckedChangeListener(this);
     }
 
     /**
@@ -99,9 +103,28 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      * @param position 播放歌曲的在播放列表中的位置
      */
     public void setSongList(List<Song> songList, int position){
+        Song song = songList.get(position);
+        mMusicManager.setSongPlay(song.getSongAddress());
         mSongList  = songList;
         mPosition = position;
-        showView(songList.get(position));
+        showView(song);
+    }
+
+    /**
+     * 插入歌曲到播放列表中 ,并播放
+     * @param song 要插入的歌
+     */
+    public void insertSongToSongList(Song song){
+        mMusicManager.setSongPlay(song.getSongAddress());
+        showView(song);
+        if(mSongList == null){
+            mSongList = new ArrayList<>();
+            mSongList.add(song);
+            mPosition = 0;
+        }else {
+            mPosition++;
+            mSongList.add(mPosition, song);
+        }
     }
 
     /**
@@ -128,7 +151,11 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mTvSongName.setText(song.getSongName());
         mTvSinger.setText(song.getSinger());
         mTvAlbum.setText(song.getAlbum());
-        mCbPlay.setChecked(true);
+        if (mCbPlay.isChecked()){
+            mMusicManager.playMusic();
+        }else {
+            mCbPlay.setChecked(true);
+        }
         if (song.isLocality()) {
             Bitmap bitmap = LocalityMP3InfoUtil.getLocalityMusicBitmap(song.getSongId(), song.getSmallImageAddress(), 150);
             mCivImage.setImageBitmap(bitmap);
@@ -142,22 +169,6 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    /**
-     * 插入歌曲到播放列表中 ,并播放
-     * @param song 要插入的歌
-     */
-    public void insertSongToSongList(Song song){
-        if(mSongList == null){
-            mSongList = new ArrayList<>();
-            mSongList.add(song);
-            mPosition = 0;
-        }else {
-            mPosition++;
-            mSongList.add(mPosition, song);
-        }
-        showView(song);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -166,6 +177,15 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked){
+            mMusicManager.playMusic();
+        }else {
+            mMusicManager.pauseMusic();
         }
     }
 }

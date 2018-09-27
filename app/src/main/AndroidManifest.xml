@@ -24,7 +24,7 @@
         <activity android:name=".search.view.activity.SearchActivity" />
 
         <service
-            android:name=".service.PlayerManagerService"
+            android:name=".music.service.PlayerManagerService"
             android:enabled="true"
             android:exported="true"
             android:process=":remote" />

@@ -1,4 +1,4 @@
-package com.example.hongzebin.beanmusic.service;
+package com.example.hongzebin.beanmusic.base.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
