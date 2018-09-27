@@ -1,5 +1,7 @@
-package com.example.hongzebin.beanmusic.base.bean;
+package com.example.hongzebin.beanmusic.service;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * 播放歌曲实体类
  * Created By Mr.Bean
  */
-public class Song implements Serializable {
+public class Song implements Serializable, Parcelable{
 
     private String songAddress;
     private long songTime;
@@ -43,6 +45,33 @@ public class Song implements Serializable {
         this.lyric = lyric;
         this.locality = locality;
     }
+
+    protected Song(Parcel in) {
+        songAddress = in.readString();
+        songTime = in.readLong();
+        smallImageAddress = in.readString();
+        largeImageAddress = in.readString();
+        songName = in.readString();
+        singer = in.readString();
+        album = in.readString();
+        songId = in.readString();
+        singerId = in.readString();
+        albumId = in.readString();
+        lyric = in.readString();
+        locality = in.readByte() != 0;
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
 
     public String getSongAddress() {
         return songAddress;
@@ -143,5 +172,26 @@ public class Song implements Serializable {
 
     public void setLocality(boolean locality) {
         this.locality = locality;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(songAddress);
+        dest.writeLong(songTime);
+        dest.writeString(smallImageAddress);
+        dest.writeString(largeImageAddress);
+        dest.writeString(songName);
+        dest.writeString(singer);
+        dest.writeString(album);
+        dest.writeString(songId);
+        dest.writeString(singerId);
+        dest.writeString(albumId);
+        dest.writeString(lyric);
+        dest.writeByte((byte) (locality ? 1 : 0));
     }
 }
