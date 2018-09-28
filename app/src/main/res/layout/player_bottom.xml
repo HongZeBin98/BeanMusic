@@ -1,89 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/player_bottom_relative_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/player_background">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/player_bottom_circle_image_view"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/a"
         android:layout_centerVertical="true"
         android:layout_marginStart="7dp"
-        app:civ_border_width="1dp"
-        app:civ_border_color="@color/deepGray"/>
+        android:src="@drawable/a"
+        app:civ_border_color="@color/deepGray"
+        app:civ_border_width="1dp" />
 
     <TextView
         android:id="@+id/player_bottom_song_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/player_bottom_circle_image_view"
-        android:text="1111111111111111111111"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/player_bottom_circle_image_view"
         android:ellipsize="end"
         android:maxLines="1"
-        android:maxWidth="175dp"/>
+        android:maxWidth="175dp"
+        android:text="1111111111111111111111"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/player_bottom_singer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/player_bottom_circle_image_view"
         android:layout_below="@id/player_bottom_song_name"
         android:layout_marginStart="11dp"
-        android:textSize="13sp"
-        android:textColor="@color/gray"
-        android:text="222222222"
-        android:maxWidth="90dp"
+        android:layout_toEndOf="@id/player_bottom_circle_image_view"
         android:ellipsize="end"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:maxWidth="90dp"
+        android:text="222222222"
+        android:textColor="@color/gray"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/player_bottom_space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/player_bottom_singer"
         android:layout_below="@id/player_bottom_song_name"
         android:layout_marginStart="2dp"
-        android:textColor="@color/gray"
-        android:text="—"/>
+        android:layout_toEndOf="@id/player_bottom_singer"
+        android:text="—"
+        android:textColor="@color/gray" />
 
     <TextView
         android:id="@+id/player_bottom_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/player_bottom_space"
         android:layout_below="@id/player_bottom_song_name"
         android:layout_marginStart="2dp"
-        android:text="333333333333"
-        android:textColor="@color/gray"
-        android:textSize="13sp"
+        android:layout_toEndOf="@id/player_bottom_space"
         android:ellipsize="end"
         android:maxLines="1"
-        android:maxWidth="90dp" />
+        android:maxWidth="90dp"
+        android:text="333333333333"
+        android:textColor="@color/gray"
+        android:textSize="13sp" />
 
     <CheckBox
         android:id="@+id/player_bottom_play_pause"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_toStartOf="@id/player_bottom_song_list"
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
-        android:button="@null"
+        android:layout_toStartOf="@id/player_bottom_song_list"
         android:background="@drawable/player_play_switch"
-        android:checked="false"/>
+        android:button="@null"
+        android:checked="false" />
 
     <ImageButton
         android:id="@+id/player_bottom_song_list"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="9dp"
         android:layout_marginEnd="7dp"
-        android:background="@drawable/player_song_list"/>
+        android:layout_marginTop="9dp"
+        android:background="@drawable/player_song_list" />
 </RelativeLayout>

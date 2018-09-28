@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +43,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private List<Song> mSongList;
     private int mPosition;
     private MusicManager mMusicManager;
+    private RelativeLayout mRelativeLayout;
 
     /**
      * 新建一个底部播放栏，并且传入该播放栏的状态
@@ -68,6 +70,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private void initView(LayoutInflater inflater, ViewGroup container) {
         mView = inflater.inflate(R.layout.player_bottom, container, false);
         mPosition = 0;
+        mRelativeLayout = mView.findViewById(R.id.player_bottom_relative_layout);
         mTvSongName = mView.findViewById(R.id.player_bottom_song_name);
         mTvSinger = mView.findViewById(R.id.player_bottom_singer);
         mTvAlbum = mView.findViewById(R.id.player_bottom_album);
@@ -85,6 +88,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     }
 
     private void initEvent() {
+        mRelativeLayout.setOnClickListener(this);
         mIbSongList.setOnClickListener(this);
         mCbPlay.setOnCheckedChangeListener(this);
     }
@@ -174,6 +178,9 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         switch (v.getId()){
             case R.id.player_bottom_song_list:
                 //打开播放列表
+                break;
+            case R.id.player_bottom_relative_layout:
+
                 break;
             default:
                 break;

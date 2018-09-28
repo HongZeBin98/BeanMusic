@@ -4,7 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.adapter.GlobalAdapter;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalClickAdapter;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalMoreAdapter;
 import com.example.hongzebin.beanmusic.base.view.LazyFragment;
 import com.example.hongzebin.beanmusic.search.adapter.LoadMoreRvAdapter;
 import com.example.hongzebin.beanmusic.search.bean.SearchSong;
@@ -16,7 +17,7 @@ import java.util.List;
  * 搜索到的歌曲页面
  * Created By Mr.Bean
  */
-public class SongFragment extends LazyFragment implements GlobalAdapter.OnCallback{
+public class SongFragment extends LazyFragment implements GlobalClickAdapter.OnClickItemCallBack, GlobalMoreAdapter.OnLoadMoreCallBack{
 
     private List<SearchSong> mSongList;
     private RecyclerView mRecyclerView;
@@ -71,7 +72,8 @@ public class SongFragment extends LazyFragment implements GlobalAdapter.OnCallba
             mRecyclerView.setLayoutManager(manager);
             mAdapter = new LoadMoreRvAdapter(mSongList, R.layout.song_list_item, mRecyclerView);
             mRecyclerView.setAdapter(mAdapter);
-            mAdapter.setCallback(this);
+            mAdapter.setOnLoadMoreCallBack(this);
+            mAdapter.setOnClickItemCallBack(this);
         }
     }
 

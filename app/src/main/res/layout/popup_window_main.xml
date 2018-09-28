@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <RelativeLayout
+            android:id="@+id/popup_window_play_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp">
+
+            <ImageButton
+                android:id="@+id/popup_window_play_mode_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/loop_play"/>
+
+            <TextView
+                android:id="@+id/popup_window_play_mode_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/popup_window_play_mode_button"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:textSize="16sp"
+                android:text="循环播放"/>
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/popup_window_trash_can"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/trash_can"/>
+    </RelativeLayout>
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/popup_window_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

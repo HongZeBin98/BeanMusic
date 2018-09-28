@@ -17,7 +17,6 @@ public abstract class LazyFragment extends Fragment {
      */
     protected boolean isInit = false;
     protected boolean isLoad = false;
-    protected final String TAG = "LazyLoadFragment";
     private View view;
 
     @Nullable

@@ -1,5 +1,6 @@
 package com.example.hongzebin.beanmusic.base.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,33 +15,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * RecyclerView的通用Adapter，能是实现加载更多
- * @param <T> 需要显示的实体类
+ * RecyclerView通用Adapter，实现了ClickItem和加载更多功能
+ * @param <T>
  * Created By Mr.Bean
  */
-public abstract class GlobalAdapter<T> extends RecyclerView.Adapter<GlobalViewHolder> {
+public abstract class GlobalMoreAdapter<T> extends GlobalClickAdapter<T> {
 
     public static final int TYPE_LOAD_MORE = 100001;
     public static final int TYPE_NORMAL = 100002;
 
     private List<T> mData;
-    private int mLayoutId;
-    private OnCallback callback;
+    private OnLoadMoreCallBack mCallback;
     private boolean isLoading;  //是否正在加载更多
 
     private int visibleThreshold = 3;   //加载到倒数第几个开始加载更多
     private boolean canLoadMore = true; //是否能加载更多
 
-    public abstract void convert(GlobalViewHolder viewHolder, T item);
-
-    public interface OnCallback {
-        void onClickItem(int position);
+    public interface OnLoadMoreCallBack{
         void onLoadMore();
     }
 
-    public GlobalAdapter(List<T> mData, int mLayoutId, RecyclerView recyclerView) {
+    public GlobalMoreAdapter(List mData, int mLayoutId, RecyclerView recyclerView) {
+        super(mData, mLayoutId);
         this.mData = mData;
-        this.mLayoutId = mLayoutId;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -50,17 +47,18 @@ public abstract class GlobalAdapter<T> extends RecyclerView.Adapter<GlobalViewHo
                 int lastPosition  = linearLayoutManager.findLastVisibleItemPosition();
                 //如果当前不是正在加载更多，并且到了该加载更多的位置，加载更多。
                 if(!isLoading && (lastPosition >= (itemCount - visibleThreshold))){
-                    if (canLoadMore && callback != null){
+                    if (canLoadMore && mCallback != null){
                         isLoading = true;
-                        callback.onLoadMore();
+                        mCallback.onLoadMore();
                     }
                 }
             }
         });
     }
 
+    @NonNull
     @Override
-    public GlobalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GlobalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == TYPE_LOAD_MORE){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_load_more, parent, false);
             ProgressBar progressBar = view.findViewById(R.id.loading);
@@ -68,24 +66,15 @@ public abstract class GlobalAdapter<T> extends RecyclerView.Adapter<GlobalViewHo
             progressBar.setIndeterminate(true);
             return new GlobalViewHolder(view);
         }else {
-            final GlobalViewHolder globalViewHolder = GlobalViewHolder.createGlobalViewHolder(parent, mLayoutId);
-            globalViewHolder.getmItemView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (callback != null) {
-                        callback.onClickItem(globalViewHolder.getAdapterPosition());
-                    }
-                }
-            });
-            return globalViewHolder;
+            return super.onCreateViewHolder(parent, viewType);
         }
     }
 
     @Override
-    public void onBindViewHolder(final GlobalViewHolder globalViewHolder, final int position) {
+    public void onBindViewHolder(@NonNull GlobalViewHolder globalViewHolder, int position) {
         if(getItemViewType(position) == TYPE_LOAD_MORE){
             View itemView = globalViewHolder.itemView;
-            //判定是不是可以加载更多或则正在加载
+            //判定是不是可以加载更多或正在加载
             if (canLoadMore && isLoading) {
                 if (itemView.getVisibility() != View.VISIBLE) {
                     itemView.setVisibility(View.VISIBLE);
@@ -94,12 +83,12 @@ public abstract class GlobalAdapter<T> extends RecyclerView.Adapter<GlobalViewHo
                 itemView.setVisibility(View.GONE);
             }
         }else{
-            convert(globalViewHolder, mData.get(position));
+            super.onBindViewHolder(globalViewHolder, position);
         }
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mData.size() + 1;
     }
 
@@ -123,8 +112,5 @@ public abstract class GlobalAdapter<T> extends RecyclerView.Adapter<GlobalViewHo
         mData.addAll(list);
     }
 
-    public void setCallback(OnCallback callback) {
-        this.callback = callback;
-    }
-
+    public void setOnLoadMoreCallBack(OnLoadMoreCallBack callBack){mCallback = callBack;}
 }

@@ -37,7 +37,7 @@ public class SearchPresenter extends BasePresenter<SearchMVPContract.View> imple
     public void getSearchResult(FragmentActivity activity, String request, int pageNo) {
         mActivity = activity;
         final boolean loadMore;
-        loadMore = pageNo != 0;
+        loadMore = pageNo != 1;
         mModel.getSearchResult(request, pageNo, 10, new SearchModel.getSearchResultCallBack() {
             @Override
             public void onFinish(final List<SearchAlbum> albumList, final List<SearchSinger> singerList, final List<SearchSong> songList) {

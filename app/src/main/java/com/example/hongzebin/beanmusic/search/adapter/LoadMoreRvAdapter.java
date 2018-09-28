@@ -3,7 +3,7 @@ package com.example.hongzebin.beanmusic.search.adapter;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.adapter.GlobalAdapter;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalMoreAdapter;
 import com.example.hongzebin.beanmusic.base.adapter.GlobalViewHolder;
 import com.example.hongzebin.beanmusic.search.bean.SearchSong;
 
@@ -13,7 +13,11 @@ import java.util.List;
  * 能加载更多的RecyclerViewAdapter
  * Created By Mr.Bean
  */
-public class LoadMoreRvAdapter extends GlobalAdapter<SearchSong> {
+public class LoadMoreRvAdapter extends GlobalMoreAdapter<SearchSong> {
+
+    public LoadMoreRvAdapter(List mData, int mLayoutId, RecyclerView recyclerView) {
+        super(mData, mLayoutId, recyclerView);
+    }
 
     @Override
     public void convert(GlobalViewHolder viewHolder, SearchSong item) {
@@ -22,7 +26,5 @@ public class LoadMoreRvAdapter extends GlobalAdapter<SearchSong> {
                 .setText(R.id.song_album, item.getAlbum());
     }
 
-    public LoadMoreRvAdapter(List<SearchSong> mData, int mLayoutId, RecyclerView recyclerView){
-        super(mData, mLayoutId , recyclerView);
-    }
+
 }

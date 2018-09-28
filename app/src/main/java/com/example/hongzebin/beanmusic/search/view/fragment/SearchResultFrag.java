@@ -59,7 +59,7 @@ public class SearchResultFrag extends BaseNoLazyFragment<SearchMVPContract.View,
         mView = inflater.inflate(R.layout.fragment_search_result_main, container, false);
         mViewPager = mView.findViewById(R.id.search_result_view_pager);
         mPagerTabStrip = mView.findViewById(R.id.search_result_tag);
-        mPagerNo = 0;
+        mPagerNo = 1;
         mFragmentList = new ArrayList<>();
         mTagList = new ArrayList<>();
         mSongFragment = new SongFragment();
