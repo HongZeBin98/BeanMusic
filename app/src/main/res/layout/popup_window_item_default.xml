@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="42dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/popup_window_song_name_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="180dp"
+        android:text="1111111"/>
+
+    <TextView
+        android:id="@+id/popup_window_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/popup_window_song_name_default"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="3dp"
+        android:textColor="@color/white"
+        android:text="—" />
+
+    <TextView
+        android:id="@+id/popup_window_singer_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/popup_window_space"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="100dp"
+        android:text="2222222222222222222"/>
+
+    <ImageButton
+        android:id="@+id/popup_window_close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/close"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/deepGray" />
+</RelativeLayout>

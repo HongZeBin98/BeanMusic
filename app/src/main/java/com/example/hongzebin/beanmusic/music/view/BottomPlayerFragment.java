@@ -1,16 +1,21 @@
 package com.example.hongzebin.beanmusic.music.view;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +24,7 @@ import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
 import com.example.hongzebin.beanmusic.base.bean.Song;
 import com.example.hongzebin.beanmusic.music.MusicManager;
+import com.example.hongzebin.beanmusic.music.adapter.PopupListAdapter;
 import com.example.hongzebin.beanmusic.util.BeanMusicApplication;
 import com.example.hongzebin.beanmusic.util.LocalityMP3InfoUtil;
 
@@ -31,7 +37,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 底部音乐播放栏
  * Created By Mr.Bean
  */
-public class BottomPlayerFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class BottomPlayerFragment extends Fragment implements View.OnClickListener
+        , CompoundButton.OnCheckedChangeListener, SongListPopupWindow.OnDirSelectedListener
+        , PopupWindow.OnDismissListener{
 
     private View mView;
     private TextView mTvSongName;
@@ -44,6 +52,9 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private int mPosition;
     private MusicManager mMusicManager;
     private RelativeLayout mRelativeLayout;
+    private SongListPopupWindow mPopupWindow;
+    private Activity mActivity;
+    private PopupListAdapter mPopupListAdapter;
 
     /**
      * 新建一个底部播放栏，并且传入该播放栏的状态
@@ -70,6 +81,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private void initView(LayoutInflater inflater, ViewGroup container) {
         mView = inflater.inflate(R.layout.player_bottom, container, false);
         mPosition = 0;
+        mSongList = new ArrayList<>();
         mRelativeLayout = mView.findViewById(R.id.player_bottom_relative_layout);
         mTvSongName = mView.findViewById(R.id.player_bottom_song_name);
         mTvSinger = mView.findViewById(R.id.player_bottom_singer);
@@ -78,6 +90,9 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mCivImage = mView.findViewById(R.id.player_bottom_circle_image_view);
         mIbSongList = mView.findViewById(R.id.player_bottom_song_list);
         mMusicManager = MusicManager.getInstance();
+        mPopupWindow = new SongListPopupWindow(getContext(), mSongList);
+        mPopupListAdapter = mPopupWindow.getPopupListAdapter();
+        mActivity = getActivity();
     }
 
     private void initData() {
@@ -91,6 +106,9 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mRelativeLayout.setOnClickListener(this);
         mIbSongList.setOnClickListener(this);
         mCbPlay.setOnCheckedChangeListener(this);
+        mPopupWindow.setOnDirSelectedListener(this);
+        mPopupWindow.setOnDismissListener(this);
+        mIbSongList.setOnClickListener(this);
     }
 
     /**
@@ -98,7 +116,10 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      * @return 底部播放栏状态
      */
     public PlayConditionStickEvent getPlayerCondition(){
-        return new PlayConditionStickEvent(mSongList, mPosition, mCbPlay.isChecked());
+        Log.e("mSongList", ""+mSongList.size() );
+        List<Song> songList = new ArrayList<>();
+        songList.addAll(mSongList);
+        return new PlayConditionStickEvent(songList, mPosition, mCbPlay.isChecked());
     }
 
     /**
@@ -109,7 +130,8 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     public void setSongList(List<Song> songList, int position){
         Song song = songList.get(position);
         mMusicManager.setSongPlay(song.getSongAddress());
-        mSongList  = songList;
+        mSongList.clear();
+        mSongList.addAll(songList);
         mPosition = position;
         showView(song);
     }
@@ -137,13 +159,15 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      */
     public void setCondition(PlayConditionStickEvent condition){
         if (condition != null) {
-            mSongList = condition.getSongList();
-            if (mSongList != null) {
+            List<Song> songList = condition.getSongList();
+            mCbPlay.setChecked(condition.isPlay());
+            mSongList.clear();
+            mSongList.addAll(songList);
+            if (mSongList.size() != 0) {
                 mPosition = condition.getPosition();
                 Song song = mSongList.get(mPosition);
                 showView(song);
             }
-            mCbPlay.setChecked(condition.isPlay());
         }
     }
 
@@ -177,10 +201,13 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.player_bottom_song_list:
+                mPopupListAdapter.notifyDataSetChanged();
                 //打开播放列表
+                mPopupWindow.showAtLocation(mRelativeLayout, Gravity.BOTTOM, 0, 0);
+                lightOff();
                 break;
             case R.id.player_bottom_relative_layout:
-
+                //打开音乐播放界面
                 break;
             default:
                 break;
@@ -194,5 +221,33 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         }else {
             mMusicManager.pauseMusic();
         }
+    }
+
+    @Override
+    public void onDismiss() {
+        lightOn();
+    }
+
+    @Override
+    public void onSelected(Song song) {
+
+    }
+
+    /**
+     * 内容区变亮
+     */
+    private void lightOn() {
+        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+        lp.alpha = 1.0f;
+        mActivity.getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 内容区域变暗
+     */
+    private void lightOff() {
+        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        mActivity.getWindow().setAttributes(lp);
     }
 }

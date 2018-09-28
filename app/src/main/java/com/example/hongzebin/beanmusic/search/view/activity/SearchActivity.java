@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -106,7 +107,6 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
 
     /**
      * 获取到要播放的歌
-     *
      * @param song 要播放的歌
      */
     public void getSong(Song song) {

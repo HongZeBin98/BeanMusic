@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 播放歌曲实体类
  * Created By Mr.Bean
  */
-public class Song implements Serializable, Parcelable{
+public class Song implements Serializable{
 
     private String songAddress;
     private long songTime;
@@ -60,18 +60,6 @@ public class Song implements Serializable, Parcelable{
         lyric = in.readString();
         locality = in.readByte() != 0;
     }
-
-    public static final Creator<Song> CREATOR = new Creator<Song>() {
-        @Override
-        public Song createFromParcel(Parcel in) {
-            return new Song(in);
-        }
-
-        @Override
-        public Song[] newArray(int size) {
-            return new Song[size];
-        }
-    };
 
     public String getSongAddress() {
         return songAddress;
@@ -172,26 +160,5 @@ public class Song implements Serializable, Parcelable{
 
     public void setLocality(boolean locality) {
         this.locality = locality;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(songAddress);
-        dest.writeLong(songTime);
-        dest.writeString(smallImageAddress);
-        dest.writeString(largeImageAddress);
-        dest.writeString(songName);
-        dest.writeString(singer);
-        dest.writeString(album);
-        dest.writeString(songId);
-        dest.writeString(singerId);
-        dest.writeString(albumId);
-        dest.writeString(lyric);
-        dest.writeByte((byte) (locality ? 1 : 0));
     }
 }

@@ -2,6 +2,7 @@ package com.example.hongzebin.beanmusic.main.view.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;

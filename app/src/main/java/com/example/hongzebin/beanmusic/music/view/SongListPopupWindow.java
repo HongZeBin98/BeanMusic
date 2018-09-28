@@ -2,6 +2,8 @@ package com.example.hongzebin.beanmusic.music.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,17 +12,24 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.example.hongzebin.beanmusic.R;
+import com.example.hongzebin.beanmusic.base.adapter.GlobalClickAdapter;
 import com.example.hongzebin.beanmusic.base.bean.Song;
+import com.example.hongzebin.beanmusic.music.adapter.PopupListAdapter;
 
 import java.util.List;
 
-public class SongListPopupWindow extends PopupWindow implements View.OnTouchListener{
+/**
+ * 对popupWindow设置基本属性
+ * Created By Mr.Bean
+ */
+public class SongListPopupWindow extends PopupWindow implements View.OnTouchListener, GlobalClickAdapter.OnClickItemCallBack{
 
     private int mWidth;
     private int mHeight;
     private View mConvertView;
     private List<Song> mSongList;
     private OnDirSelectedListener mListener;
+    private PopupListAdapter mPopupListAdapter;
 
     public interface OnDirSelectedListener{
         void onSelected(Song song);
@@ -33,13 +42,24 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
     public SongListPopupWindow(Context context, List<Song> songList){
         setWidthAndHeight(context);
         mSongList = songList;
-        setContentView(LayoutInflater.from(context).inflate(R.layout.popup_window_main, null));
+        mConvertView = LayoutInflater.from(context).inflate(R.layout.popup_window_main, null);
+        setContentView(mConvertView);
         setWidth(mWidth);
         setHeight(mHeight);
         setFocusable(true);
         setTouchable(true);
         setOutsideTouchable(true);
-//        setTouchInterceptor(this)
+        setTouchInterceptor(this);
+        initViews(context);
+    }
+
+    private void initViews(Context context) {
+        RecyclerView recyclerView = mConvertView.findViewById(R.id.popup_window_recycler_view);
+        LinearLayoutManager manager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(manager);
+        mPopupListAdapter = new PopupListAdapter(mSongList, R.layout.popup_window_item_default);
+        mPopupListAdapter.setOnClickItemCallBack(this);
+        recyclerView.setAdapter(mPopupListAdapter);
     }
 
     /**
@@ -67,6 +87,15 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClickItem(int position) {
+        mListener.onSelected(mSongList.get(position));
+    }
+
+    public PopupListAdapter getPopupListAdapter(){
+        return mPopupListAdapter;
     }
 
 }

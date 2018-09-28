@@ -2,6 +2,8 @@ package com.example.hongzebin.beanmusic.base.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
 
 import org.greenrobot.eventbus.EventBus;
