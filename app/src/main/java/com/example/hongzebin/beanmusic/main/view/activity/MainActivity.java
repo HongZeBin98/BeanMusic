@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -32,6 +34,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private RadioButton mRbLocality;
     private ImageButton mImageButton;
     private BottomPlayerFragment mFgBottomPlayer;
+    private FrameLayout mFrameLayout;
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -73,6 +76,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     protected void setConditionStickEvent(PlayConditionStickEvent event) {
         mFgBottomPlayer.setCondition(event);
+        isBottomPlayerShow();
     }
 
     @Override
@@ -92,6 +96,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mRbMusic = findViewById(R.id.main_top_music);
         mRbLocality = findViewById(R.id.main_top_locality);
         mImageButton = findViewById(R.id.main_top_search);
+        mFrameLayout = findViewById(R.id.main_bottom_player);
+        isBottomPlayerShow();
     }
 
     @Override
@@ -108,6 +114,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewPager.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
         mImageButton.setOnClickListener(this);
+        mFgBottomPlayer.setBottomPlayerHideCallback(new BottomPlayerFragment.BottomPlayerHideCallback() {
+            @Override
+            public void onFinish() {
+                isBottomPlayerShow();
+            }
+        });
     }
 
     /**
@@ -116,6 +128,21 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      */
     public void getLocalitySongList(List<Song> songList, int position){
         mFgBottomPlayer.setSongList(songList, position);
+        isBottomPlayerShow();
+    }
+
+    /**
+     * 底部播放栏显示和隐藏
+     */
+    private void isBottomPlayerShow(){
+        ViewGroup.LayoutParams lp = mFrameLayout.getLayoutParams();
+        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        if(mFgBottomPlayer.getSongListSize() != 0 ){
+            lp.height = 200;
+        }else {
+            lp.height = 0;
+        }
+        mFrameLayout.setLayoutParams(lp);
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -26,11 +27,13 @@ import com.example.hongzebin.beanmusic.base.bean.Song;
  * 搜索页面Activity
  * Created By Mr.Bean
  */
-public class SearchActivity extends BaseActivity implements View.OnTouchListener, SearchView.OnQueryTextListener{
+public class SearchActivity extends BaseActivity implements View.OnTouchListener
+        , SearchView.OnQueryTextListener{
 
     private SearchView mSearchView;
     private ImageButton mIbBack;
     private FrameLayout mFlMiddle;
+    private FrameLayout mFlBottom;
     private BottomPlayerFragment mBottomFragment;
 
     /**
@@ -41,6 +44,35 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_search);
+        mSearchView = findViewById(R.id.search_search_view);
+        mIbBack = findViewById(R.id.search_back);
+        mFlMiddle = findViewById(R.id.search_frame_layout);
+        mFlBottom = findViewById(R.id.search_frame_bottom_player);
+    }
+
+    @Override
+    protected void initData() {
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    protected void initEvents() {
+        replaceFragment(R.id.search_frame_layout, new SearchRecommendationFrag());
+        mSearchView.setOnQueryTextListener(this);
+        mFlMiddle.setOnTouchListener(this);
+        mIbBack.setOnTouchListener(this);
+        mBottomFragment.setBottomPlayerHideCallback(new BottomPlayerFragment.BottomPlayerHideCallback() {
+            @Override
+            public void onFinish() {
+                isBottomPlayerShow();
+            }
+        });
+        isBottomPlayerShow();
     }
 
     /**
@@ -124,24 +156,19 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
         return mBottomFragment.getPlayerCondition();
     }
 
-    @Override
-    protected void initView() {
-        setContentView(R.layout.activity_search);
-        mSearchView = findViewById(R.id.search_search_view);
-        mIbBack = findViewById(R.id.search_back);
-        mFlMiddle = findViewById(R.id.search_frame_layout);
-    }
-
-    @Override
-    protected void initData() {
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    protected void initEvents() {
-        replaceFragment(R.id.search_frame_layout, new SearchRecommendationFrag());
-        mSearchView.setOnQueryTextListener(this);
-        mFlMiddle.setOnTouchListener(this);
-        mIbBack.setOnTouchListener(this);
+    /**
+     * 底部播放栏显示和隐藏
+     */
+    private void isBottomPlayerShow(){
+        if (mFlBottom.getLayoutParams() != null){
+            ViewGroup.LayoutParams lp = mFlBottom.getLayoutParams();
+            lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            if(mBottomFragment.getSongListSize() != 0 ){
+                lp.height = 200;
+            }else {
+                lp.height = 0;
+            }
+            mFlBottom.setLayoutParams(lp);
+        }
     }
 }

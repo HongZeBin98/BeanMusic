@@ -55,6 +55,11 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private SongListPopupWindow mPopupWindow;
     private Activity mActivity;
     private PopupListAdapter mPopupListAdapter;
+    private BottomPlayerHideCallback mCallback;
+
+    public interface BottomPlayerHideCallback{
+        void onFinish();
+    }
 
     /**
      * 新建一个底部播放栏，并且传入该播放栏的状态
@@ -109,6 +114,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mPopupWindow.setOnDirSelectedListener(this);
         mPopupWindow.setOnDismissListener(this);
         mIbSongList.setOnClickListener(this);
+        mPopupWindow.getmIBTrashCan().setOnClickListener(this);
     }
 
     /**
@@ -116,9 +122,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      * @return 底部播放栏状态
      */
     public PlayConditionStickEvent getPlayerCondition(){
-        Log.e("mSongList", ""+mSongList.size() );
-        List<Song> songList = new ArrayList<>();
-        songList.addAll(mSongList);
+        List<Song> songList = new ArrayList<>(mSongList);
         return new PlayConditionStickEvent(songList, mPosition, mCbPlay.isChecked());
     }
 
@@ -141,16 +145,16 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      * @param song 要插入的歌
      */
     public void insertSongToSongList(Song song){
-        mMusicManager.setSongPlay(song.getSongAddress());
-        showView(song);
-        if(mSongList == null){
-            mSongList = new ArrayList<>();
+        if(mSongList == null || mSongList.size() == 0){
+            mSongList.clear();
             mSongList.add(song);
             mPosition = 0;
         }else {
             mPosition++;
             mSongList.add(mPosition, song);
         }
+        mMusicManager.setSongPlay(song.getSongAddress());
+        showView(song);
     }
 
     /**
@@ -176,6 +180,10 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      * @param song 播放歌曲
      */
     private void showView(Song song){
+        mPopupListAdapter.notifyDataSetChanged();
+        if (mCallback != null){
+            mCallback.onFinish();
+        }
         mTvSongName.setText(song.getSongName());
         mTvSinger.setText(song.getSinger());
         mTvAlbum.setText(song.getAlbum());
@@ -208,6 +216,14 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.player_bottom_relative_layout:
                 //打开音乐播放界面
+                break;
+            case R.id.popup_window_trash_can:
+                mSongList.clear();
+                mPopupListAdapter.notifyDataSetChanged();
+                MusicManager.getInstance().pauseMusic();
+                if (mCallback != null){
+                    mCallback.onFinish();
+                }
                 break;
             default:
                 break;
@@ -249,5 +265,16 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
         lp.alpha = 0.3f;
         mActivity.getWindow().setAttributes(lp);
+    }
+
+    public int getSongListSize(){
+        if (mSongList == null){
+            return 0;
+        }
+        return mSongList.size();
+    }
+
+    public void setBottomPlayerHideCallback(BottomPlayerHideCallback callback){
+        mCallback = callback;
     }
 }

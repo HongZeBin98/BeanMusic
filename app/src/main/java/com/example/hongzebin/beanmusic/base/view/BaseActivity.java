@@ -3,6 +3,8 @@ package com.example.hongzebin.beanmusic.base.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
 
@@ -54,6 +56,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initData();
 
     protected abstract void initEvents();
-
-
 }
