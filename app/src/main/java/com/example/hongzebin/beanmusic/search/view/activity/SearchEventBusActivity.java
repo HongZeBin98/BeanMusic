@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.view.BaseActivity;
-import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
+import com.example.hongzebin.beanmusic.base.view.BaseEventBusActivity;
+import com.example.hongzebin.beanmusic.base.bean.PlayerCondition;
 import com.example.hongzebin.beanmusic.music.view.BottomPlayerFragment;
 import com.example.hongzebin.beanmusic.search.view.fragment.SearchRecommendationFrag;
 import com.example.hongzebin.beanmusic.search.view.fragment.SearchResultFrag;
@@ -27,7 +26,7 @@ import com.example.hongzebin.beanmusic.base.bean.Song;
  * 搜索页面Activity
  * Created By Mr.Bean
  */
-public class SearchActivity extends BaseActivity implements View.OnTouchListener
+public class SearchEventBusActivity extends BaseEventBusActivity implements View.OnTouchListener
         , SearchView.OnQueryTextListener{
 
     private SearchView mSearchView;
@@ -42,7 +41,7 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
      * @param context 上下文
      */
     public static void startActivity(Context context) {
-        Intent intent = new Intent(context, SearchActivity.class);
+        Intent intent = new Intent(context, SearchEventBusActivity.class);
         context.startActivity(intent);
     }
 
@@ -146,13 +145,13 @@ public class SearchActivity extends BaseActivity implements View.OnTouchListener
     }
 
     @Override
-    protected void setConditionStickEvent(PlayConditionStickEvent event) {
+    protected void setConditionStickEvent(PlayerCondition event) {
         mBottomFragment = BottomPlayerFragment.newInstance(event);
         replaceFragment(R.id.search_frame_bottom_player, mBottomFragment);
     }
 
     @Override
-    protected PlayConditionStickEvent getConditionStickEvent() {
+    protected PlayerCondition getConditionStickEvent() {
         return mBottomFragment.getPlayerCondition();
     }
 

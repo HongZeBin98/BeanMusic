@@ -77,8 +77,7 @@
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/player_bottom_song_list"
         android:background="@drawable/player_play_switch"
-        android:button="@null"
-        android:checked="false" />
+        android:button="@null"/>
 
     <ImageButton
         android:id="@+id/player_bottom_song_list"

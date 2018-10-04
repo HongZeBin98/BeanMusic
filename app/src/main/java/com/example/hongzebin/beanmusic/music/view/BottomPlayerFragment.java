@@ -1,12 +1,12 @@
 package com.example.hongzebin.beanmusic.music.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
+import com.example.hongzebin.beanmusic.base.bean.PlayerCondition;
 import com.example.hongzebin.beanmusic.base.bean.Song;
 import com.example.hongzebin.beanmusic.music.MusicManager;
 import com.example.hongzebin.beanmusic.music.adapter.PopupListAdapter;
@@ -39,7 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class BottomPlayerFragment extends Fragment implements View.OnClickListener
         , CompoundButton.OnCheckedChangeListener, SongListPopupWindow.OnDirSelectedListener
-        , PopupWindow.OnDismissListener{
+        , PopupWindow.OnDismissListener {
 
     private View mView;
     private TextView mTvSongName;
@@ -57,19 +57,20 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
     private PopupListAdapter mPopupListAdapter;
     private BottomPlayerHideCallback mCallback;
 
-    public interface BottomPlayerHideCallback{
+    public interface BottomPlayerHideCallback {
         void onFinish();
     }
 
     /**
      * 新建一个底部播放栏，并且传入该播放栏的状态
-     * @param playCondition 播放栏状态
+     *
+     * @param playerCondition 播放栏状态
      * @return 底部播放栏
      */
-    public static BottomPlayerFragment newInstance(PlayConditionStickEvent playCondition){
+    public static BottomPlayerFragment newInstance(PlayerCondition playerCondition) {
         BottomPlayerFragment fragment = new BottomPlayerFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("Condition", playCondition);
+        bundle.putParcelable("Condition", playerCondition);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -102,8 +103,8 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     private void initData() {
         Bundle bundle = getArguments();
-        if (bundle != null){
-            setCondition((PlayConditionStickEvent) bundle.getSerializable("Condition"));
+        if (bundle != null) {
+            setCondition((PlayerCondition) bundle.getParcelable("Condition"));
         }
     }
 
@@ -119,49 +120,53 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     /**
      * 返回当前底部播放栏的状态
+     *
      * @return 底部播放栏状态
      */
-    public PlayConditionStickEvent getPlayerCondition(){
+    public PlayerCondition getPlayerCondition() {
         List<Song> songList = new ArrayList<>(mSongList);
-        return new PlayConditionStickEvent(songList, mPosition, mCbPlay.isChecked());
+        return new PlayerCondition(songList, mPosition, mCbPlay.isChecked());
     }
 
     /**
      * 获取播放列表，并播放指定位置的歌
+     *
      * @param songList 播放列表
      * @param position 播放歌曲的在播放列表中的位置
      */
-    public void setSongList(List<Song> songList, int position){
+    public void setSongList(List<Song> songList, int position) {
         Song song = songList.get(position);
         mMusicManager.setSongPlay(song.getSongAddress());
         mSongList.clear();
         mSongList.addAll(songList);
         mPosition = position;
-        showView(song);
+        showView(song, true);
     }
 
     /**
      * 插入歌曲到播放列表中 ,并播放
+     *
      * @param song 要插入的歌
      */
-    public void insertSongToSongList(Song song){
-        if(mSongList == null || mSongList.size() == 0){
+    public void insertSongToSongList(Song song) {
+        if (mSongList == null || mSongList.size() == 0) {
             mSongList.clear();
             mSongList.add(song);
             mPosition = 0;
-        }else {
+        } else {
             mPosition++;
             mSongList.add(mPosition, song);
         }
         mMusicManager.setSongPlay(song.getSongAddress());
-        showView(song);
+        showView(song, true);
     }
 
     /**
      * 设置底部播放栏的状态
+     *
      * @param condition 底部播放栏的状态
      */
-    public void setCondition(PlayConditionStickEvent condition){
+    public void setCondition(PlayerCondition condition) {
         if (condition != null) {
             List<Song> songList = condition.getSongList();
             mCbPlay.setChecked(condition.isPlay());
@@ -170,36 +175,39 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
             if (mSongList.size() != 0) {
                 mPosition = condition.getPosition();
                 Song song = mSongList.get(mPosition);
-                showView(song);
+                showView(song, false);
             }
         }
     }
 
     /**
      * 把播放的歌曲展示在底部播放栏上
+     *
      * @param song 播放歌曲
      */
-    private void showView(Song song){
+    private void showView(Song song, boolean setPlay) {
         mPopupListAdapter.notifyDataSetChanged();
-        if (mCallback != null){
+        if (mCallback != null) {
             mCallback.onFinish();
         }
         mTvSongName.setText(song.getSongName());
         mTvSinger.setText(song.getSinger());
         mTvAlbum.setText(song.getAlbum());
-        if (mCbPlay.isChecked()){
-            mMusicManager.playMusic();
-        }else {
-            mCbPlay.setChecked(true);
+        if (setPlay) {
+            if (mCbPlay.isChecked()) {
+                mMusicManager.playMusic();
+            } else {
+                mCbPlay.setChecked(true);
+            }
         }
         if (song.isLocality()) {
             Bitmap bitmap = LocalityMP3InfoUtil.getLocalityMusicBitmap(song.getSongId(), song.getSmallImageAddress(), 150);
             mCivImage.setImageBitmap(bitmap);
-        }else {
-            if (song.getSmallImageAddress().equals("")){
+        } else {
+            if (song.getSmallImageAddress().equals("")) {
                 //无法获取到专辑图片
                 mCivImage.setImageResource(R.drawable.music_false);
-            }else {
+            } else {
                 Glide.with(BeanMusicApplication.getContext()).load(song.getSmallImageAddress()).into(mCivImage);
             }
         }
@@ -207,7 +215,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.player_bottom_song_list:
                 mPopupListAdapter.notifyDataSetChanged();
                 //打开播放列表
@@ -216,12 +224,13 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.player_bottom_relative_layout:
                 //打开音乐播放界面
+                MusicPlayerActivity.startActivity(getActivity(), getPlayerCondition());
                 break;
             case R.id.popup_window_trash_can:
                 mSongList.clear();
                 mPopupListAdapter.notifyDataSetChanged();
                 MusicManager.getInstance().pauseMusic();
-                if (mCallback != null){
+                if (mCallback != null) {
                     mCallback.onFinish();
                 }
                 break;
@@ -232,9 +241,9 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked){
+        if (isChecked) {
             mMusicManager.playMusic();
-        }else {
+        } else {
             mMusicManager.pauseMusic();
         }
     }
@@ -246,7 +255,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onSelected(Song song) {
-
+        //popup中选择的歌曲
     }
 
     /**
@@ -267,14 +276,14 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mActivity.getWindow().setAttributes(lp);
     }
 
-    public int getSongListSize(){
-        if (mSongList == null){
+    public int getSongListSize() {
+        if (mSongList == null) {
             return 0;
         }
         return mSongList.size();
     }
 
-    public void setBottomPlayerHideCallback(BottomPlayerHideCallback callback){
+    public void setBottomPlayerHideCallback(BottomPlayerHideCallback callback) {
         mCallback = callback;
     }
 }

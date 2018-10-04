@@ -2,16 +2,11 @@ package com.example.hongzebin.beanmusic.base.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.hongzebin.beanmusic.base.presenter.BasePresenter;
 
-/**
- * 使得Fragment的生命周期和Presenter进行关联，防止出现内存泄漏，进行懒加载
- * @param <V> View层接口
- * @param <P> Presenter
- * Created By Mr.Bean
- */
-public abstract class BaseFragment<V, P extends BasePresenter<V>> extends LazyFragment {
+public abstract class BaseMVPActivity<V, P extends BasePresenter<V>> extends AppCompatActivity {
 
     protected P mPresenter;
 
@@ -21,6 +16,12 @@ public abstract class BaseFragment<V, P extends BasePresenter<V>> extends LazyFr
         //创建Presenter
         mPresenter = createPresenter();
         mPresenter.attachView((V)this);
+        // 初始化布局
+        initView();
+        //初始化数据
+        initData();
+        // 初始化事件
+        initEvents();
     }
 
     @Override
@@ -30,4 +31,10 @@ public abstract class BaseFragment<V, P extends BasePresenter<V>> extends LazyFr
     }
 
     protected abstract P createPresenter();
+
+    protected abstract void initView();
+
+    protected abstract void initData();
+
+    protected abstract void initEvents();
 }

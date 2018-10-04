@@ -9,7 +9,7 @@ import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.view.LazyFragment;
 import com.example.hongzebin.beanmusic.main.adapter.TabViewPagerAdapter;
 import com.example.hongzebin.beanmusic.rankingList.view.RankingListFragment;
-import com.example.hongzebin.beanmusic.recommendation.view.RecFragment;
+import com.example.hongzebin.beanmusic.recommendation.view.RecMVPFragment;
 import com.example.hongzebin.beanmusic.singer.view.SingerFragment;
 import com.example.hongzebin.beanmusic.songList.view.SongListFragment;
 
@@ -44,7 +44,7 @@ public class MusicFragment extends LazyFragment {
     }
 
     private void initData() {
-        mFragments.add(new RecFragment());
+        mFragments.add(new RecMVPFragment());
         mFragments.add(new SongListFragment());
         mFragments.add(new RankingListFragment());
         mFragments.add(new SingerFragment());

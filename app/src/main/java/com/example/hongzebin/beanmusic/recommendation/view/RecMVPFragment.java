@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.hongzebin.beanmusic.R;
-import com.example.hongzebin.beanmusic.base.view.BaseFragment;
+import com.example.hongzebin.beanmusic.base.view.BaseMVPFragment;
 import com.example.hongzebin.beanmusic.recommendation.bean.HotSongList;
 import com.example.hongzebin.beanmusic.recommendation.bean.NewSong;
 import com.example.hongzebin.beanmusic.recommendation.bean.RecSong;
@@ -17,7 +17,7 @@ import com.example.hongzebin.beanmusic.recommendation.presenter.RecPresenter;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class RecFragment extends BaseFragment<RecMVPContract.View, RecPresenter> implements RecMVPContract.View {
+public class RecMVPFragment extends BaseMVPFragment<RecMVPContract.View, RecPresenter> implements RecMVPContract.View {
 
     private RecyclerView mRecyclerView;
     private List<Shuffling> mShufflings;

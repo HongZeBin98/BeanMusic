@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 播放歌曲实体类
  * Created By Mr.Bean
  */
-public class Song implements Serializable{
+public class Song {
 
     private String songAddress;
     private long songTime;

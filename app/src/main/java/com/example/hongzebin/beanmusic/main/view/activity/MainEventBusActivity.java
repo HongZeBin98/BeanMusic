@@ -2,7 +2,6 @@ package com.example.hongzebin.beanmusic.main.view.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,20 +11,20 @@ import android.widget.RadioGroup;
 
 import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.bean.Song;
-import com.example.hongzebin.beanmusic.base.view.BaseActivity;
-import com.example.hongzebin.beanmusic.base.bean.PlayConditionStickEvent;
+import com.example.hongzebin.beanmusic.base.view.BaseEventBusActivity;
+import com.example.hongzebin.beanmusic.base.bean.PlayerCondition;
 import com.example.hongzebin.beanmusic.music.MusicManager;
 import com.example.hongzebin.beanmusic.music.view.BottomPlayerFragment;
 import com.example.hongzebin.beanmusic.main.adapter.ViewPagerAdapter;
-import com.example.hongzebin.beanmusic.locality.view.LocalityFragment;
+import com.example.hongzebin.beanmusic.locality.view.LocalityMVPFragment;
 import com.example.hongzebin.beanmusic.main.view.fragment.MusicFragment;
-import com.example.hongzebin.beanmusic.search.view.activity.SearchActivity;
+import com.example.hongzebin.beanmusic.search.view.activity.SearchEventBusActivity;
 import com.example.hongzebin.beanmusic.util.Permission;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class MainEventBusActivity extends BaseEventBusActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private List<Fragment> mFragments;
     private ViewPager mViewPager;
@@ -35,6 +34,44 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private ImageButton mImageButton;
     private BottomPlayerFragment mFgBottomPlayer;
     private FrameLayout mFrameLayout;
+
+    @Override
+    protected void initView() {
+        //动态获取权限
+        Permission.requestAllPower(this);
+        setContentView(R.layout.activity_main);
+        mFragments = new ArrayList<>();
+        mFgBottomPlayer = new BottomPlayerFragment();
+        mViewPager = findViewById(R.id.main_viewpager);
+        mRadioGroup = findViewById(R.id.main_top_RG);
+        mRbMusic = findViewById(R.id.main_top_music);
+        mRbLocality = findViewById(R.id.main_top_locality);
+        mImageButton = findViewById(R.id.main_top_search);
+        mFrameLayout = findViewById(R.id.main_bottom_player);
+        isBottomPlayerShow();
+    }
+
+    @Override
+    protected void initData() {
+        mFragments.add(new MusicFragment());
+        mFragments.add(new LocalityMVPFragment());
+    }
+
+    @Override
+    protected void initEvents() {
+        //动态添加底部播放栏Fragment
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_bottom_player, mFgBottomPlayer).commit();
+        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragments));
+        mViewPager.addOnPageChangeListener(this);
+        mRadioGroup.setOnCheckedChangeListener(this);
+        mImageButton.setOnClickListener(this);
+        mFgBottomPlayer.setBottomPlayerHideCallback(new BottomPlayerFragment.BottomPlayerHideCallback() {
+            @Override
+            public void onFinish() {
+                isBottomPlayerShow();
+            }
+        });
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -66,7 +103,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.main_top_search:
-                SearchActivity.startActivity(this);
+                SearchEventBusActivity.startActivity(this);
                 break;
             default:
                 break;
@@ -74,52 +111,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    protected void setConditionStickEvent(PlayConditionStickEvent event) {
+    protected void setConditionStickEvent(PlayerCondition event) {
         mFgBottomPlayer.setCondition(event);
         isBottomPlayerShow();
     }
 
     @Override
-    protected PlayConditionStickEvent getConditionStickEvent() {
+    protected PlayerCondition getConditionStickEvent() {
         return mFgBottomPlayer.getPlayerCondition();
-    }
-
-    @Override
-    protected void initView() {
-        //动态获取权限
-        Permission.requestAllPower(this);
-        setContentView(R.layout.activity_main);
-        mFragments = new ArrayList<>();
-        mFgBottomPlayer = new BottomPlayerFragment();
-        mViewPager = findViewById(R.id.main_viewpager);
-        mRadioGroup = findViewById(R.id.main_top_RG);
-        mRbMusic = findViewById(R.id.main_top_music);
-        mRbLocality = findViewById(R.id.main_top_locality);
-        mImageButton = findViewById(R.id.main_top_search);
-        mFrameLayout = findViewById(R.id.main_bottom_player);
-        isBottomPlayerShow();
-    }
-
-    @Override
-    protected void initData() {
-        mFragments.add(new MusicFragment());
-        mFragments.add(new LocalityFragment());
-    }
-
-    @Override
-    protected void initEvents() {
-        //动态添加底部播放栏Fragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_bottom_player, mFgBottomPlayer).commit();
-        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragments));
-        mViewPager.addOnPageChangeListener(this);
-        mRadioGroup.setOnCheckedChangeListener(this);
-        mImageButton.setOnClickListener(this);
-        mFgBottomPlayer.setBottomPlayerHideCallback(new BottomPlayerFragment.BottomPlayerHideCallback() {
-            @Override
-            public void onFinish() {
-                isBottomPlayerShow();
-            }
-        });
     }
 
     /**

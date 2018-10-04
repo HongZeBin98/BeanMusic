@@ -7,12 +7,12 @@ import android.widget.TextView;
 
 import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.bean.Song;
-import com.example.hongzebin.beanmusic.base.view.BaseFragment;
+import com.example.hongzebin.beanmusic.base.view.BaseMVPFragment;
 import com.example.hongzebin.beanmusic.locality.adapter.LocRecyclerViewAdapter;
 import com.example.hongzebin.beanmusic.locality.bean.MP3Info;
 import com.example.hongzebin.beanmusic.locality.contract.LocMVPContract;
 import com.example.hongzebin.beanmusic.locality.presenter.LocPresenter;
-import com.example.hongzebin.beanmusic.main.view.activity.MainActivity;
+import com.example.hongzebin.beanmusic.main.view.activity.MainEventBusActivity;
 import com.example.hongzebin.beanmusic.widget.IndexBar;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Objects;
  * 本地音乐界面
  * Created By Mr.Bean
  */
-public class LocalityFragment extends BaseFragment<LocMVPContract.View, LocPresenter>
+public class LocalityMVPFragment extends BaseMVPFragment<LocMVPContract.View, LocPresenter>
         implements LocMVPContract.View, IndexBar.OnAlphabetChangeListener
         , LocRecyclerViewAdapter.OnItemClickListener{
 
@@ -96,6 +96,6 @@ public class LocalityFragment extends BaseFragment<LocMVPContract.View, LocPrese
 
     @Override
     public void onItemClick(View view, int position) {
-        ((MainActivity) Objects.requireNonNull(getActivity())).getLocalitySongList(mSongList, position);
+        ((MainEventBusActivity) Objects.requireNonNull(getActivity())).getLocalitySongList(mSongList, position);
     }
 }
