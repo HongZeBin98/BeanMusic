@@ -19,7 +19,7 @@ import com.example.hongzebin.beanmusic.search.bean.SearchSinger;
 import com.example.hongzebin.beanmusic.search.bean.SearchSong;
 import com.example.hongzebin.beanmusic.search.contract.SearchMVPContract;
 import com.example.hongzebin.beanmusic.search.presenter.SearchPresenter;
-import com.example.hongzebin.beanmusic.search.view.activity.SearchEventBusActivity;
+import com.example.hongzebin.beanmusic.search.view.activity.SearchActivity;
 import com.example.hongzebin.beanmusic.base.bean.Song;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class SearchResultFrag extends BaseNoLazyFragment<SearchMVPContract.View,
 
     @Override
     public void returnSong(Song song) {
-        ((SearchEventBusActivity) getActivity()).getSong(song);
+        ((SearchActivity) getActivity()).getSong(song);
     }
 
     /**

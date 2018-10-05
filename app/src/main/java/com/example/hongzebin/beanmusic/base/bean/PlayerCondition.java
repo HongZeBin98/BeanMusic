@@ -9,7 +9,7 @@ import java.util.List;
  * 音乐底部播放栏的状态
  * Created By Mr.Bean
  */
-public class PlayerCondition implements Parcelable{
+public class  PlayerCondition  implements Parcelable{
 
     private List<Song> songList;
     private int position;
@@ -21,7 +21,8 @@ public class PlayerCondition implements Parcelable{
         this.isPlay = isPlay;
     }
 
-    private PlayerCondition(Parcel in) {
+    protected PlayerCondition(Parcel in) {
+        songList = in.createTypedArrayList(Song.CREATOR);
         position = in.readInt();
         isPlay = in.readByte() != 0;
     }
@@ -69,6 +70,7 @@ public class PlayerCondition implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(songList);
         dest.writeInt(position);
         dest.writeByte((byte) (isPlay ? 1 : 0));
     }

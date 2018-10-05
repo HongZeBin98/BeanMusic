@@ -13,6 +13,8 @@ import com.example.hongzebin.beanmusic.service.IPlayerManager;
 
 import java.io.IOException;
 
+import static android.media.MediaPlayer.SEEK_CLOSEST;
+
 public class PlayerManagerService extends Service {
 
     private MediaPlayer mPlayer;
@@ -53,6 +55,16 @@ public class PlayerManagerService extends Service {
 
         @Override
         public void setCurrDuration(long songCurrTime) throws RemoteException {
+            try {
+                mPlayer.seekTo((int)songCurrTime);
+            } catch (Exception e) {
+                Log.e("PlayerManagerService", Log.getStackTraceString(e));
+            }
+        }
+
+        @Override
+        public float getProgress() throws RemoteException {
+            return (float) (mPlayer.getCurrentPosition() * 1.00 / mPlayer.getDuration());
         }
 
     };

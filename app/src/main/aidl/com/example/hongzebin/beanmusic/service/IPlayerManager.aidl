@@ -8,4 +8,5 @@ interface IPlayerManager {
     void pause();
     void setSong(String songAddress);
     void setCurrDuration(long songCurrTime);
+    float getProgress();
 }

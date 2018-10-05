@@ -101,4 +101,17 @@ public class MusicManager {
             Log.e("MusicManager", Log.getStackTraceString(e));
         }
     }
+
+    /**
+     * 获取当前歌曲进度
+     */
+    public float getCurrProgress(){
+        float progress = -1;
+        try {
+            progress = mService.getProgress();
+        } catch (RemoteException e) {
+            Log.e("MusicManager", Log.getStackTraceString(e));
+        }
+        return progress;
+    }
 }

@@ -18,7 +18,7 @@ import com.example.hongzebin.beanmusic.music.view.BottomPlayerFragment;
 import com.example.hongzebin.beanmusic.main.adapter.ViewPagerAdapter;
 import com.example.hongzebin.beanmusic.locality.view.LocalityMVPFragment;
 import com.example.hongzebin.beanmusic.main.view.fragment.MusicFragment;
-import com.example.hongzebin.beanmusic.search.view.activity.SearchEventBusActivity;
+import com.example.hongzebin.beanmusic.search.view.activity.SearchActivity;
 import com.example.hongzebin.beanmusic.util.Permission;
 
 import java.util.ArrayList;
@@ -103,7 +103,7 @@ public class MainEventBusActivity extends BaseEventBusActivity implements ViewPa
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.main_top_search:
-                SearchEventBusActivity.startActivity(this);
+                SearchActivity.startActivity(this);
                 break;
             default:
                 break;

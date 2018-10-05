@@ -47,7 +47,8 @@ public class MusicModel {
                     connection.disconnect();
                     //测试
                     Log.e("读取来的数据", strBuilder.toString());
-                    callBack.onFinish(analyseLrc(strBuilder.toString()));
+                    List<LrcBean> list = analyseLrc(strBuilder.toString());
+                    callBack.onFinish(list);
                 } catch (Exception e) {
                     callBack.onFailure(e);
                 } finally {
@@ -115,7 +116,7 @@ public class MusicModel {
      * @return 歌词实体类
      */
     private List<LrcBean> analyseLrcLine(String lrcLine) {
-        if (lrcLine.indexOf("[") != 0 || lrcLine.indexOf("]") != 9) {
+        if (lrcLine.indexOf("[") != 0 || lrcLine.indexOf("]") != 9 || lrcLine.indexOf("o") == 1) {
             return null;
         }
         //找到最后一个“]”的位置

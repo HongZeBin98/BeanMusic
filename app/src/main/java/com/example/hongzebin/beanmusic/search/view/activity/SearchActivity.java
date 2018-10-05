@@ -26,7 +26,7 @@ import com.example.hongzebin.beanmusic.base.bean.Song;
  * 搜索页面Activity
  * Created By Mr.Bean
  */
-public class SearchEventBusActivity extends BaseEventBusActivity implements View.OnTouchListener
+public class SearchActivity extends BaseEventBusActivity implements View.OnTouchListener
         , SearchView.OnQueryTextListener{
 
     private SearchView mSearchView;
@@ -41,7 +41,7 @@ public class SearchEventBusActivity extends BaseEventBusActivity implements View
      * @param context 上下文
      */
     public static void startActivity(Context context) {
-        Intent intent = new Intent(context, SearchEventBusActivity.class);
+        Intent intent = new Intent(context, SearchActivity.class);
         context.startActivity(intent);
     }
 
@@ -83,7 +83,7 @@ public class SearchEventBusActivity extends BaseEventBusActivity implements View
     private void replaceFragment(int ViewId, Fragment fragment) {
         FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(ViewId, fragment).commit();
+        ft.replace(ViewId, fragment).commitAllowingStateLoss();
     }
 
 //    @Override
@@ -146,8 +146,13 @@ public class SearchEventBusActivity extends BaseEventBusActivity implements View
 
     @Override
     protected void setConditionStickEvent(PlayerCondition event) {
-        mBottomFragment = BottomPlayerFragment.newInstance(event);
-        replaceFragment(R.id.search_frame_bottom_player, mBottomFragment);
+        if (mBottomFragment == null) {
+            mBottomFragment = BottomPlayerFragment.newInstance(event);
+            replaceFragment(R.id.search_frame_bottom_player, mBottomFragment);
+        }else {
+            mBottomFragment.setCondition(event);
+        }
+
     }
 
     @Override

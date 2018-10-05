@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".music.view.MusicPlayerActivity">
+    tools:context=".music.view.MusicPlayerActivity"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +13,8 @@
 
         <ImageButton
             android:id="@+id/music_player_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:background="@drawable/back" />
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/music_player_back"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="2dp"
             android:text="111111111111111111111111"
             android:textSize="18sp"
@@ -38,10 +39,9 @@
             android:id="@+id/music_player_singer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:layout_below="@id/music_player_song_name"
             android:layout_toEndOf="@id/music_player_back"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:textColor="@color/gray"
             android:textSize="15sp"
             android:text="2222222222222222222222222222222"
@@ -51,14 +51,90 @@
 
         <ImageButton
             android:id="@+id/music_player_share"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:background="@drawable/share"/>
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/c">
 
+        <com.example.hongzebin.beanmusic.widget.LrcView
+            android:id="@+id/music_player_lrc_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <CheckBox
+                android:id="@+id/music_player_play"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/player_play_switch"
+                android:button="@null"/>
+
+            <ImageButton
+                android:id="@+id/music_player_next_song"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@id/music_player_play"
+                android:layout_marginBottom="19dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/next_song"/>
+
+            <ImageButton
+                android:id="@+id/music_player_previous_song"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@id/music_player_play"
+                android:layout_marginBottom="19dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/previous_song"/>
+
+            <ImageButton
+                android:id="@+id/music_player_play_mode"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="28dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/loop_play"/>
+
+            <ImageButton
+                android:id="@+id/music_player_song_list"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="23dp"
+                android:layout_marginEnd="11dp"
+                android:background="@drawable/music_play_list" />
+
+            <SeekBar
+                android:id="@+id/music_player_seek_bar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_above="@id/music_player_play"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@android:style/Widget.Holo.SeekBar"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
