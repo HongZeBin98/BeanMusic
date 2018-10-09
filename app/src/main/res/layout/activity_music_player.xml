@@ -19,7 +19,7 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/back" />
 
-        <com.example.hongzebin.beanmusic.music.view.MarqueeTextView
+        <com.example.hongzebin.beanmusic.widget.MarqueeTextView
             android:id="@+id/music_player_song_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

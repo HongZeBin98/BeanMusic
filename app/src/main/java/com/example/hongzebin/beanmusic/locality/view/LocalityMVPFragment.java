@@ -2,6 +2,7 @@ package com.example.hongzebin.beanmusic.locality.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +13,7 @@ import com.example.hongzebin.beanmusic.locality.adapter.LocRecyclerViewAdapter;
 import com.example.hongzebin.beanmusic.locality.bean.MP3Info;
 import com.example.hongzebin.beanmusic.locality.contract.LocMVPContract;
 import com.example.hongzebin.beanmusic.locality.presenter.LocPresenter;
-import com.example.hongzebin.beanmusic.main.view.activity.MainEventBusActivity;
+import com.example.hongzebin.beanmusic.main.view.activity.MainActivity;
 import com.example.hongzebin.beanmusic.widget.IndexBar;
 
 import java.util.List;
@@ -96,6 +97,6 @@ public class LocalityMVPFragment extends BaseMVPFragment<LocMVPContract.View, Lo
 
     @Override
     public void onItemClick(View view, int position) {
-        ((MainEventBusActivity) Objects.requireNonNull(getActivity())).getLocalitySongList(mSongList, position);
+        ((MainActivity) Objects.requireNonNull(getActivity())).getLocalitySongList(mSongList, position);
     }
 }

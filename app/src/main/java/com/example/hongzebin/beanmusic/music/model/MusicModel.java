@@ -71,7 +71,7 @@ public class MusicModel {
         }
         StringReader reader = new StringReader(rawLrc);
         BufferedReader br = new BufferedReader(reader);
-        String line = null;
+        String line;
         List<LrcBean> lrcBeanList = new ArrayList<>();
         try {
             //循环地读取歌词的每一行
@@ -116,7 +116,7 @@ public class MusicModel {
      * @return 歌词实体类
      */
     private List<LrcBean> analyseLrcLine(String lrcLine) {
-        if (lrcLine.indexOf("[") != 0 || lrcLine.indexOf("]") != 9 || lrcLine.indexOf("o") == 1) {
+        if (lrcLine.indexOf("[") != 0 || lrcLine.indexOf(".") != 6 || lrcLine.indexOf("o") == 1) {
             return null;
         }
         //找到最后一个“]”的位置

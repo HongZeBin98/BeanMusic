@@ -10,8 +10,9 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.example.hongzebin.beanmusic.music.service.IPlayFinishListener;
+import com.example.hongzebin.beanmusic.music.service.IPlayerManager;
 import com.example.hongzebin.beanmusic.music.service.PlayerManagerService;
-import com.example.hongzebin.beanmusic.service.IPlayerManager;
 import com.example.hongzebin.beanmusic.util.BeanMusicApplication;
 
 /**
@@ -19,6 +20,10 @@ import com.example.hongzebin.beanmusic.util.BeanMusicApplication;
  * Created By Mr.Bean
  */
 public class MusicManager {
+
+    public interface PlayFinishCallBack{
+        void onPlayFinish();
+    }
 
     private IPlayerManager mService;
     private Context mContext;
@@ -33,6 +38,13 @@ public class MusicManager {
             mService = null;
         }
     };
+    private IPlayFinishListener mListener = new IPlayFinishListener.Stub() {
+        @Override
+        public void onPlayFinish() throws RemoteException {
+            mCallBack.onPlayFinish();
+        }
+    };
+    private PlayFinishCallBack mCallBack;
 
     private MusicManager(){
         mContext = BeanMusicApplication.getContext();
@@ -79,7 +91,7 @@ public class MusicManager {
     }
 
     /**
-     * 设置歌曲并且开始播放
+     * 设置歌曲
      * @param songAddress 歌曲地址
      */
     public void setSongPlay(String songAddress){
@@ -113,5 +125,33 @@ public class MusicManager {
             Log.e("MusicManager", Log.getStackTraceString(e));
         }
         return progress;
+    }
+
+    /**
+     * 设置是否单曲循环
+     * @param looping 是否单曲循环
+     */
+    public void setLooping(boolean looping){
+        try {
+            mService.setLooping(looping);
+        } catch (RemoteException e) {
+            Log.e("MusicManager", Log.getStackTraceString(e));
+        }
+    }
+
+    /**
+     * 注册监听是否播放完一首歌
+     */
+    public void registerPlayFinishListener(){
+        //监听歌曲是否播放完成
+        try {
+            mService.registerListener(mListener);
+        } catch (RemoteException e) {
+            Log.e("MusicManager", Log.getStackTraceString(e));
+        }
+    }
+
+    public void setPlayFinishCallBack(PlayFinishCallBack mCallBack) {
+        this.mCallBack = mCallBack;
     }
 }

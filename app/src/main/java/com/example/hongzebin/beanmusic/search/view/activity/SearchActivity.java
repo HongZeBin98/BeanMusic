@@ -90,7 +90,6 @@ public class SearchActivity extends BaseEventBusActivity implements View.OnTouch
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {
 //        switch (keyCode) {
 //            case KeyEvent.KEYCODE_BACK:
-//                Log.e("", "?????????????" );
 //                finish();
 //                break;
 //            default:
@@ -134,7 +133,6 @@ public class SearchActivity extends BaseEventBusActivity implements View.OnTouch
     public boolean onQueryTextChange(String newText) {
         return false;
     }
-
 
     /**
      * 获取到要播放的歌

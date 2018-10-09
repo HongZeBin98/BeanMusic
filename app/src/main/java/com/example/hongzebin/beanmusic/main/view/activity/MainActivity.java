@@ -2,6 +2,7 @@ package com.example.hongzebin.beanmusic.main.view.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -24,7 +25,7 @@ import com.example.hongzebin.beanmusic.util.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainEventBusActivity extends BaseEventBusActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private List<Fragment> mFragments;
     private ViewPager mViewPager;

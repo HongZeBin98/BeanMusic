@@ -39,7 +39,8 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:maxWidth="100dp"
-        android:text="2222222222222222222"/>
+        android:text="2222222222222222222"
+        android:textColor="@color/gray"/>
 
     <ImageButton
         android:id="@+id/popup_window_close"

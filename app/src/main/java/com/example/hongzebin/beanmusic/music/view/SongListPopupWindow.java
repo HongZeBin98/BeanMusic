@@ -17,8 +17,9 @@ import android.widget.TextView;
 import com.example.hongzebin.beanmusic.R;
 import com.example.hongzebin.beanmusic.base.adapter.GlobalClickAdapter;
 import com.example.hongzebin.beanmusic.base.bean.Song;
-import com.example.hongzebin.beanmusic.music.MusicManager;
+import com.example.hongzebin.beanmusic.music.PlayerManager;
 import com.example.hongzebin.beanmusic.music.adapter.PopupListAdapter;
+import com.example.hongzebin.beanmusic.music.bean.PlayMode;
 import com.example.hongzebin.beanmusic.util.BeanMusicApplication;
 
 import java.util.ArrayList;
@@ -38,12 +39,11 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
     private OnDirSelectedListener mListener;
     private PopupListAdapter mPopupListAdapter;
     private RelativeLayout mRelativeLayout;
-    private List<Integer> mPlayMode;
-    private List<String> mPlayModeText;
-    private int mPlayModeSelected;
     private ImageButton mIbPlayMode;
     private TextView mTvPlayMode;
     private ImageButton mIBTrashCan;
+    private IPlayModeChangeListener mPlayModeListener;
+    private PlayerManager mPlayerManager;
 
     public interface OnDirSelectedListener{
         void onSelected(Song song);
@@ -53,9 +53,11 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         this.mListener = mListener;
     }
 
-    SongListPopupWindow(Context context, List<Song> songList){
+    @SuppressLint("InflateParams")
+    private SongListPopupWindow(){
+        Context context = BeanMusicApplication.getContext();
         setWidthAndHeight(context);
-        mSongList = songList;
+        mSongList = new ArrayList<>();
         mConvertView = LayoutInflater.from(context).inflate(R.layout.popup_window_main, null);
         setContentView(mConvertView);
         setWidth(mWidth);
@@ -69,10 +71,16 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         initEvent();
     }
 
+    public static SongListPopupWindow getInstance(){
+        return PopupWindowHolder.INSTANCE;
+    }
+
+    private static class PopupWindowHolder{
+        @SuppressLint("StaticFieldLeak")
+        private static final SongListPopupWindow INSTANCE = new SongListPopupWindow();
+    }
+
     private void initViews(Context context) {
-        mPlayModeSelected = 0;
-        mPlayMode = new ArrayList<>();
-        mPlayModeText= new ArrayList<>();
         mIBTrashCan = mConvertView.findViewById(R.id.popup_window_trash_can);
         mRelativeLayout = mConvertView.findViewById(R.id.popup_window_play_mode);
         mIbPlayMode = mConvertView.findViewById(R.id.popup_window_play_mode_button);
@@ -84,17 +92,10 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         recyclerView.setAdapter(mPopupListAdapter);
     }
 
-
     private void initData() {
-        mPlayMode.add(R.drawable.random_play);
-        mPlayMode.add(R.drawable.single_play);
-        mPlayMode.add(R.drawable.loop_play);
-        mPlayModeText.add("随机播放");
-        mPlayModeText.add("单曲循环");
-        mPlayModeText.add("循环播放");
         //默认播放方式为列表循环
-        mIbPlayMode.setBackground(BeanMusicApplication.getContext().getResources().getDrawable(R.drawable.loop_play));
-        mTvPlayMode.setText("循环播放");
+        mIbPlayMode.setBackground(BeanMusicApplication.getContext().getResources().getDrawable((R.drawable.loop_play)));
+        mTvPlayMode.setText("列表循环");
     }
 
     private void initEvent() {
@@ -133,13 +134,14 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.popup_window_play_mode:
-                if (mPlayModeSelected >= 3){
-                    mPlayModeSelected = 0;
+                if (mPlayerManager == null){
+                    mPlayerManager = PlayerManager.getInstance();
                 }
+                mPlayModeListener.modeChange();
+                PlayMode playMode = mPlayerManager.getPlayModeView();
                 mIbPlayMode.setBackground(BeanMusicApplication.getContext()
-                        .getResources().getDrawable(mPlayMode.get(mPlayModeSelected)));
-                mTvPlayMode.setText(mPlayModeText.get(mPlayModeSelected));
-                mPlayModeSelected++;
+                        .getResources().getDrawable(playMode.getModeId()));
+                mTvPlayMode.setText(playMode.getModeText());
                 break;
             default:
                 break;
@@ -155,8 +157,22 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         return mPopupListAdapter;
     }
 
-    public ImageButton getmIBTrashCan(){
+    public ImageButton getIBTrashCan(){
         return mIBTrashCan;
     }
 
+    public void setPlayModeChangeListener(IPlayModeChangeListener listener){
+        mPlayModeListener = listener;
+    }
+
+    public void refreshSongList(List<Song> songList){
+        if (mSongList != null){
+            mSongList.clear();
+            mSongList.addAll(songList);
+        }
+    }
+
+    public List<Song> getSongList(){
+        return mSongList;
+    }
 }

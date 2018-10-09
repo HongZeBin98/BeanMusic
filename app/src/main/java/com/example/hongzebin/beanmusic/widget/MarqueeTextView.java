@@ -1,4 +1,4 @@
-package com.example.hongzebin.beanmusic.music.view;
+package com.example.hongzebin.beanmusic.widget;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
