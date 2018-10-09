@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -41,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class BottomPlayerFragment extends Fragment implements View.OnClickListener
         , CompoundButton.OnCheckedChangeListener, SongListPopupWindow.OnDirSelectedListener
-        , PopupWindow.OnDismissListener, PlayerManager.NextSongListener{
+        , PopupWindow.OnDismissListener, PlayerManager.NextSongListener {
 
     private View mView;
     private TextView mTvSongName;
@@ -190,6 +189,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     /**
      * 把播放的歌曲展示在底部播放栏上
+     *
      * @param song 播放歌曲
      */
     private void showView(Song song, boolean setPlay) {
@@ -225,7 +225,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
                 mPopupListAdapter.notifyDataSetChanged();
                 //打开播放列表
                 mPopupWindow.showAtLocation(mRelativeLayout, Gravity.BOTTOM, 0, 0);
-                lightOff();
+                mPopupWindow.lightOff(mActivity);
                 break;
             case R.id.player_bottom_relative_layout:
                 //打开音乐播放界面
@@ -256,7 +256,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onDismiss() {
-        lightOn();
+        mPopupWindow.lightOn(mActivity);
     }
 
     @Override
@@ -265,24 +265,6 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mMusicManager.setSongPlay(song.getSongAddress());
         showView(song, true);
         mPopupWindow.dismiss();
-    }
-
-    /**
-     * 内容区变亮
-     */
-    private void lightOn() {
-        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
-        lp.alpha = 1.0f;
-        mActivity.getWindow().setAttributes(lp);
-    }
-
-    /**
-     * 内容区域变暗
-     */
-    private void lightOff() {
-        WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
-        lp.alpha = 0.3f;
-        mActivity.getWindow().setAttributes(lp);
     }
 
     public int getSongListSize() {
@@ -296,8 +278,8 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         mCallback = callback;
     }
 
-    private void registerPlayFinish(){
-        if (mFirst){
+    private void registerPlayFinish() {
+        if (mFirst) {
             mMusicManager.registerPlayFinishListener();
             mFirst = false;
         }
@@ -308,12 +290,12 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
         Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (position == -1){
-                    mPosition ++;
-                }else {
+                if (position == -1) {
+                    mPosition++;
+                } else {
                     mPosition = position;
                 }
-                Song song  = mSongList.get(mPosition);
+                Song song = mSongList.get(mPosition);
                 mMusicManager.setSongPlay(song.getSongAddress());
                 showView(song, true);
             }

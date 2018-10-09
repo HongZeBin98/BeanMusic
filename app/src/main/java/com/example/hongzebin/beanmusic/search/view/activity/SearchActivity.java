@@ -149,6 +149,7 @@ public class SearchActivity extends BaseEventBusActivity implements View.OnTouch
             replaceFragment(R.id.search_frame_bottom_player, mBottomFragment);
         }else {
             mBottomFragment.setCondition(event);
+            isBottomPlayerShow();
         }
 
     }

@@ -3,6 +3,7 @@ package com.example.hongzebin.beanmusic.music.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,7 +33,8 @@ import java.util.TimerTask;
 
 public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, MusicPresenter>
         implements MusicMVPContract.View, View.OnClickListener, CompoundButton.OnCheckedChangeListener
-        , SeekBar.OnSeekBarChangeListener, LrcView.ILrcViewListener, PlayerManager.NextSongListener {
+        , SeekBar.OnSeekBarChangeListener, LrcView.ILrcViewListener, PlayerManager.NextSongListener
+        , SongListPopupWindow.OnDismissListener, SongListPopupWindow.OnDirSelectedListener {
 
     private SeekBar mSeekBar;
     private ImageButton mIbBack;
@@ -42,6 +44,7 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
     private ImageButton mIbNextSong;
     private ImageButton mIbPreviousSong;
     private ImageButton mIbPlayMode;
+    private ImageButton mIbSongList;
     private LrcView mLrcView;
     private List<Song> mSongList;
     private int mPosition;
@@ -52,6 +55,7 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
     private PlayerManager mPlayerManager;
     private Context mContext;
     private IPlayModeChangeListener mPlayModeListener;
+    private SongListPopupWindow mPopupWindow;
 
     @Override
     protected MusicPresenter createPresenter() {
@@ -64,12 +68,14 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
         mIbPlayMode = findViewById(R.id.music_player_play_mode);
         mSeekBar = findViewById(R.id.music_player_seek_bar);
         mIbBack = findViewById(R.id.music_player_back);
+        mIbSongList = findViewById(R.id.music_player_song_list);
         mTvSongName = findViewById(R.id.music_player_song_name);
         mTvSinger = findViewById(R.id.music_player_singer);
         mCbPlay = findViewById(R.id.music_player_play);
         mIbNextSong = findViewById(R.id.music_player_next_song);
         mIbPreviousSong = findViewById(R.id.music_player_previous_song);
         mLrcView = findViewById(R.id.music_player_lrc_view);
+        mPopupWindow = SongListPopupWindow.getInstance();
         mMusicManager = MusicManager.getInstance();
         mTimerSeekBar = new Timer();
         mTimerLrcTrundle = new Timer();
@@ -91,6 +97,7 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
     protected void initEvents() {
         mPlayerManager.setPlayActivity(this);
         mIbNextSong.setOnClickListener(this);
+        mIbSongList.setOnClickListener(this);
         mIbPreviousSong.setOnClickListener(this);
         mIbBack.setOnClickListener(this);
         mIbPlayMode.setOnClickListener(this);
@@ -98,6 +105,9 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
         mSeekBar.setOnSeekBarChangeListener(this);
         mLrcView.setListener(this);
         mPlayerManager.addNextSongListener(this);
+        mPopupWindow.setOnDismissListener(this);
+        mPopupWindow.setOnDirSelectedListener(this);
+        mPopupWindow.getIBTrashCan().setOnClickListener(this);
         mTimerSeekBar.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -148,6 +158,19 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
                         .getDrawable(playMode.getModeId()));
                 Toast.makeText(mContext, playMode.getModeText(), Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.music_player_song_list:
+                mPopupWindow.showAtLocation(mCbPlay, Gravity.BOTTOM, 0, 0);
+                mPopupWindow.lightOff(this);
+                break;
+            case R.id.popup_window_trash_can:
+                mTimerSeekBar.cancel();
+                mTimerLrcTrundle.cancel();
+                mSongList.clear();
+                mPopupWindow.getPopupListAdapter().notifyDataSetChanged();
+                MusicManager.getInstance().pauseMusic();
+                mPopupWindow.dismiss();
+                finishActivity();
+                break;
             default:
         }
     }
@@ -156,8 +179,8 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
     public void onDestroy() {
         super.onDestroy();
         mTimerSeekBar.cancel();
-        mTimerSeekBar = null;
         mTimerLrcTrundle.cancel();
+        mTimerSeekBar = null;
         mTimerLrcTrundle = null;
     }
 
@@ -287,7 +310,24 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
         }
     }
 
-    public void setPlayModeChangeListener(IPlayModeChangeListener listener){
+    public void setPlayModeChangeListener(IPlayModeChangeListener listener) {
         mPlayModeListener = listener;
+    }
+
+    @Override
+    public void onDismiss() {
+        mIbPlayMode.setBackground(mContext.getResources()
+                .getDrawable(mPlayerManager.getPlayModeView().getModeId()));
+        mPopupWindow.lightOn(this);
+    }
+
+    @Override
+    public void onSelected(Song song) {
+        //popupWindow中选择的歌曲
+        mMusicManager.setSongPlay(song.getSongAddress());
+        setCondition(song);
+        if (!mCbPlay.isChecked()) {
+            mCbPlay.setChecked(true);
+        }
     }
 }

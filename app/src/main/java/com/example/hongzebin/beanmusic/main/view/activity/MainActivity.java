@@ -80,9 +80,9 @@ public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPa
 
     @Override
     public void onPageSelected(int position) {
-        if (position == 0){
+        if (position == 0) {
             mRbMusic.setChecked(true);
-        }else if(position == 1) {
+        } else if (position == 1) {
             mRbLocality.setChecked(true);
         }
     }
@@ -93,16 +93,16 @@ public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPa
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId == mRbMusic.getId()){
+        if (checkedId == mRbMusic.getId()) {
             mViewPager.setCurrentItem(0);
-        }else if(checkedId == mRbLocality.getId()){
+        } else if (checkedId == mRbLocality.getId()) {
             mViewPager.setCurrentItem(1);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.main_top_search:
                 SearchActivity.startActivity(this);
                 break;
@@ -124,9 +124,10 @@ public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPa
 
     /**
      * 把本地歌曲歌单传入底部播放栏
+     *
      * @param songList 本地歌曲歌单
      */
-    public void getLocalitySongList(List<Song> songList, int position){
+    public void getLocalitySongList(List<Song> songList, int position) {
         mFgBottomPlayer.setSongList(songList, position);
         isBottomPlayerShow();
     }
@@ -134,12 +135,12 @@ public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPa
     /**
      * 底部播放栏显示和隐藏
      */
-    private void isBottomPlayerShow(){
+    private void isBottomPlayerShow() {
         ViewGroup.LayoutParams lp = mFrameLayout.getLayoutParams();
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        if(mFgBottomPlayer.getSongListSize() != 0 ){
+        if (mFgBottomPlayer.getSongListSize() != 0) {
             lp.height = 200;
-        }else {
+        } else {
             lp.height = 0;
         }
         mFrameLayout.setLayoutParams(lp);

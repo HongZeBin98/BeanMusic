@@ -1,6 +1,7 @@
 package com.example.hongzebin.beanmusic.music.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +31,7 @@ import java.util.List;
  * Created By Mr.Bean
  */
 public class SongListPopupWindow extends PopupWindow implements View.OnTouchListener
-        , GlobalClickAdapter.OnClickItemCallBack, View.OnClickListener{
+        , GlobalClickAdapter.OnClickItemCallBack, View.OnClickListener {
 
     private int mWidth;
     private int mHeight;
@@ -45,16 +46,16 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
     private IPlayModeChangeListener mPlayModeListener;
     private PlayerManager mPlayerManager;
 
-    public interface OnDirSelectedListener{
+    public interface OnDirSelectedListener {
         void onSelected(Song song);
     }
 
-    public void setOnDirSelectedListener(OnDirSelectedListener mListener){
+    public void setOnDirSelectedListener(OnDirSelectedListener mListener) {
         this.mListener = mListener;
     }
 
     @SuppressLint("InflateParams")
-    private SongListPopupWindow(){
+    private SongListPopupWindow() {
         Context context = BeanMusicApplication.getContext();
         setWidthAndHeight(context);
         mSongList = new ArrayList<>();
@@ -71,11 +72,11 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         initEvent();
     }
 
-    public static SongListPopupWindow getInstance(){
+    public static SongListPopupWindow getInstance() {
         return PopupWindowHolder.INSTANCE;
     }
 
-    private static class PopupWindowHolder{
+    private static class PopupWindowHolder {
         @SuppressLint("StaticFieldLeak")
         private static final SongListPopupWindow INSTANCE = new SongListPopupWindow();
     }
@@ -110,7 +111,7 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         //获取屏幕的长和宽
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
-        if(wm == null){
+        if (wm == null) {
             return;
         }
         wm.getDefaultDisplay().getMetrics(outMetrics);
@@ -123,7 +124,7 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_OUTSIDE){
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
             dismiss();
             return true;
         }
@@ -132,9 +133,9 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.popup_window_play_mode:
-                if (mPlayerManager == null){
+                if (mPlayerManager == null) {
                     mPlayerManager = PlayerManager.getInstance();
                 }
                 mPlayModeListener.modeChange();
@@ -153,26 +154,44 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
         mListener.onSelected(mSongList.get(position));
     }
 
-    public PopupListAdapter getPopupListAdapter(){
+    /**
+     * 不是PopupWindow的地方变亮
+     */
+    public void lightOn(Activity activity) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 1.0f;
+        activity.getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 不是PopupWindow的地方变暗
+     */
+    public void lightOff(Activity activity) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        activity.getWindow().setAttributes(lp);
+    }
+
+    public PopupListAdapter getPopupListAdapter() {
         return mPopupListAdapter;
     }
 
-    public ImageButton getIBTrashCan(){
+    public ImageButton getIBTrashCan() {
         return mIBTrashCan;
     }
 
-    public void setPlayModeChangeListener(IPlayModeChangeListener listener){
+    public void setPlayModeChangeListener(IPlayModeChangeListener listener) {
         mPlayModeListener = listener;
     }
 
-    public void refreshSongList(List<Song> songList){
-        if (mSongList != null){
+    public void refreshSongList(List<Song> songList) {
+        if (mSongList != null) {
             mSongList.clear();
             mSongList.addAll(songList);
         }
     }
 
-    public List<Song> getSongList(){
+    public List<Song> getSongList() {
         return mSongList;
     }
 }
