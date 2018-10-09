@@ -22,21 +22,25 @@ public class MusicPresenter extends BasePresenter<MusicMVPContract.View> impleme
 
     @Override
     public void getLrc(String lrcUrl, final FragmentActivity activity) {
-        mModel.downLoadLrc(lrcUrl, new MusicModel.DownLoadCallBack() {
-            @Override
-            public void onFinish(final List<LrcBean> lrcBeans) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mView.showLrc(lrcBeans);
-                    }
-                });
-            }
+        if (lrcUrl == null){
+            mView.showLrc(null);
+        }else {
+            mModel.downLoadLrc(lrcUrl, new MusicModel.DownLoadCallBack() {
+                @Override
+                public void onFinish(final List<LrcBean> lrcBeans) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mView.showLrc(lrcBeans);
+                        }
+                    });
+                }
 
-            @Override
-            public void onFailure(Exception e) {
-                Log.e("MusicPresenter", Log.getStackTraceString(e));
-            }
-        });
+                @Override
+                public void onFailure(Exception e) {
+                    Log.e("MusicPresenter", Log.getStackTraceString(e));
+                }
+            });
+        }
     }
 }

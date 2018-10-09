@@ -238,6 +238,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
                 if (mCallback != null) {
                     mCallback.onFinish();
                 }
+                mPopupWindow.lightOn(mActivity);
                 mPopupWindow.dismiss();
                 break;
             default:

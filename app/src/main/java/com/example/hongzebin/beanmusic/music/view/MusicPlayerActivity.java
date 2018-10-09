@@ -3,6 +3,7 @@ package com.example.hongzebin.beanmusic.music.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -163,8 +164,12 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
                 mPopupWindow.lightOff(this);
                 break;
             case R.id.popup_window_trash_can:
-                mTimerSeekBar.cancel();
-                mTimerLrcTrundle.cancel();
+                if (mTimerSeekBar != null){
+                    mTimerSeekBar.cancel();
+                }
+                if (mTimerLrcTrundle != null){
+                    mTimerLrcTrundle.cancel();
+                }
                 mSongList.clear();
                 mPopupWindow.getPopupListAdapter().notifyDataSetChanged();
                 MusicManager.getInstance().pauseMusic();
