@@ -21,6 +21,7 @@ import com.example.hongzebin.beanmusic.music.view.BottomPlayerFragment;
 import com.example.hongzebin.beanmusic.search.view.fragment.SearchRecommendationFrag;
 import com.example.hongzebin.beanmusic.search.view.fragment.SearchResultFrag;
 import com.example.hongzebin.beanmusic.base.bean.Song;
+import com.example.hongzebin.beanmusic.util.DimensionUtil;
 
 /**
  * 搜索页面Activity
@@ -151,7 +152,6 @@ public class SearchActivity extends BaseEventBusActivity implements View.OnTouch
             mBottomFragment.setCondition(event);
             isBottomPlayerShow();
         }
-
     }
 
     @Override
@@ -167,7 +167,7 @@ public class SearchActivity extends BaseEventBusActivity implements View.OnTouch
             ViewGroup.LayoutParams lp = mFlBottom.getLayoutParams();
             lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
             if(mBottomFragment.getSongListSize() != 0 ){
-                lp.height = 200;
+                lp.height = DimensionUtil.dip2px(50);
             }else {
                 lp.height = 0;
             }

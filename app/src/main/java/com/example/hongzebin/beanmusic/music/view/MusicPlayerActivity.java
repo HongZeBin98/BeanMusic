@@ -138,6 +138,8 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
     @Override
     public void showLrc(List<LrcBean> lrcBeans) {
         mLrcView.setLrc(lrcBeans);
+        final long songTime = (long) (mSongList.get(mPosition).getSongTime() * 1000 * mMusicManager.getCurrProgress());
+        mLrcView.seekLrcToTime(songTime);
     }
 
     @Override
@@ -171,7 +173,6 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
                     mTimerLrcTrundle.cancel();
                 }
                 mSongList.clear();
-                Log.e("mSongList.size2", "++++++++++++++" + mSongList.size());
                 mPopupWindow.getPopupListAdapter().notifyDataSetChanged();
                 MusicManager.getInstance().pauseMusic();
                 mPopupWindow.dismiss();
@@ -289,6 +290,7 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
             }
         }
         Song song = mSongList.get(mPosition);
+        mLrcView.setLrc(null);
         mMusicManager.setSongPlay(song.getSongAddress());
         setCondition(song);
         if (!mCbPlay.isChecked()) {
@@ -310,6 +312,7 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
             }
         }
         Song song = mSongList.get(mPosition);
+        mLrcView.setLrc(null);
         mMusicManager.setSongPlay(song.getSongAddress());
         setCondition(song);
         if (!mCbPlay.isChecked()) {

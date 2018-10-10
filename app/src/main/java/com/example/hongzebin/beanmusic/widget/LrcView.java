@@ -78,6 +78,7 @@ public class LrcView extends View implements ILrcView {
     @Override
     public void setLrc(List<LrcBean> lrcBeans) {
         mLrcBeans = lrcBeans;
+        mHighLightRow = 0;
         invalidate();
     }
 

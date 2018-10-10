@@ -20,6 +20,7 @@ import com.example.hongzebin.beanmusic.main.adapter.ViewPagerAdapter;
 import com.example.hongzebin.beanmusic.locality.view.LocalityMVPFragment;
 import com.example.hongzebin.beanmusic.main.view.fragment.MusicFragment;
 import com.example.hongzebin.beanmusic.search.view.activity.SearchActivity;
+import com.example.hongzebin.beanmusic.util.DimensionUtil;
 import com.example.hongzebin.beanmusic.util.Permission;
 
 import java.util.ArrayList;
@@ -139,7 +140,7 @@ public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPa
         ViewGroup.LayoutParams lp = mFrameLayout.getLayoutParams();
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         if (mFgBottomPlayer.getSongListSize() != 0) {
-            lp.height = 200;
+            lp.height = DimensionUtil.dip2px(50);
         } else {
             lp.height = 0;
         }
@@ -149,6 +150,6 @@ public class MainActivity extends BaseEventBusActivity implements ViewPager.OnPa
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MusicManager.getInstance().unBindService();
+//        MusicManager.getInstance().unBindService();
     }
 }
