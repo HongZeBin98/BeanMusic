@@ -174,6 +174,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
      * @param condition 底部播放栏的状态
      */
     public void setCondition(PlayerCondition condition) {
+        mPopupWindow.getIBTrashCan().setOnClickListener(this);
         if (condition != null) {
             List<Song> songList = condition.getSongList();
             mCbPlay.setChecked(condition.isPlay());
@@ -233,6 +234,7 @@ public class BottomPlayerFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.popup_window_trash_can:
                 mSongList.clear();
+                Log.e("mSongList.size1", "++++++++++++++" + mSongList.size());
                 mPopupListAdapter.notifyDataSetChanged();
                 MusicManager.getInstance().pauseMusic();
                 if (mCallback != null) {

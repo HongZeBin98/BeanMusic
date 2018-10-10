@@ -159,6 +159,7 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
      * 不是PopupWindow的地方变亮
      */
     public void lightOn(Activity activity) {
+        Log.e("onActivity", "++++++++++++++++" + activity );
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = 1.0f;
         activity.getWindow().setAttributes(lp);
@@ -168,6 +169,7 @@ public class SongListPopupWindow extends PopupWindow implements View.OnTouchList
      * 不是PopupWindow的地方变暗
      */
     public void lightOff(Activity activity) {
+        Log.e("offActivity", "----------------" + activity );
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = 0.3f;
         activity.getWindow().setAttributes(lp);

@@ -164,13 +164,14 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
                 mPopupWindow.lightOff(this);
                 break;
             case R.id.popup_window_trash_can:
-                if (mTimerSeekBar != null){
+                 if (mTimerSeekBar != null){
                     mTimerSeekBar.cancel();
                 }
                 if (mTimerLrcTrundle != null){
                     mTimerLrcTrundle.cancel();
                 }
                 mSongList.clear();
+                Log.e("mSongList.size2", "++++++++++++++" + mSongList.size());
                 mPopupWindow.getPopupListAdapter().notifyDataSetChanged();
                 MusicManager.getInstance().pauseMusic();
                 mPopupWindow.dismiss();
@@ -253,6 +254,7 @@ public class MusicPlayerActivity extends BaseMVPActivity<MusicMVPContract.View, 
         PlayerCondition condition = new PlayerCondition(mSongList, mPosition, mCbPlay.isChecked());
         intent.putExtra("Condition", condition);
         setResult(RESULT_OK, intent);
+        mPopupWindow.getIBTrashCan().setOnClickListener(null);
         finish();
     }
 
